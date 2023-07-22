@@ -1,0 +1,15 @@
+node_modules/
+
+.env
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+coverage
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+.pnp.*
+.yarn-integrity
