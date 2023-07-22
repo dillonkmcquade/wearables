@@ -19,7 +19,7 @@ connectToDatabase()
         res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
         next();
       })
-      .use(morgan("tiny"))
+      .use(morgan("dev"))
       .use(express.json())
       .use(express.urlencoded({ extended: false }))
       .use("/", express.static(__dirname + "/"))
