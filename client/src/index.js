@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/App";
-import { UserProvider } from "./UserContext";
-import { ItemProvider } from "./ItemContext";
-import { CompanyProvider } from "./CompanyContext";
+import { UserProvider } from "./context/UserContext";
+import { ItemProvider } from "./context/ItemContext";
+import { CompanyProvider } from "./context/CompanyContext";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,5 +15,5 @@ ReactDOM.render(
       </ItemProvider>
     </CompanyProvider>
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );

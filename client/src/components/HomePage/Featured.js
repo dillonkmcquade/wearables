@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ItemContext } from "../../ItemContext";
+import { ItemContext } from "../../context/ItemContext";
 
 const Featured = () => {
   const navigate = useNavigate();
@@ -117,7 +117,9 @@ const ItemBox = styled.div`
   justify-content: center;
   text-align: center;
   padding: 1rem;
-  box-shadow: 0 0.1rem 0.2rem 0 #808080, 0 0.1rem 0.2rem #808080;
+  box-shadow:
+    0 0.1rem 0.2rem 0 #808080,
+    0 0.1rem 0.2rem #808080;
   width: 15rem;
   height: 15rem;
   cursor: pointer;
@@ -191,7 +193,9 @@ const ImageCategory = styled.img`
   width: 100%;
   height: 100%;
   opacity: 60%;
-  box-shadow: 0 0.1rem 0.2rem 0 #808080, 0 0.1rem 0.2rem #808080;
+  box-shadow:
+    0 0.1rem 0.2rem 0 #808080,
+    0 0.1rem 0.2rem #808080;
 `;
 
 const Image = styled.img`

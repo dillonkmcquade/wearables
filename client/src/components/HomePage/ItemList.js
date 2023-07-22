@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { ItemContext } from "../../ItemContext";
+import { ItemContext } from "../../context/ItemContext";
 
 const ItemList = () => {
   const [category, setCategory] = useState(null);
@@ -198,7 +198,9 @@ const ItemBox = styled.div`
   text-align: center;
   margin: 2rem;
   padding: 1rem;
-  box-shadow: 0 2px 4px 0 #808080, 0 4px 10px 0 #808080;
+  box-shadow:
+    0 2px 4px 0 #808080,
+    0 4px 10px 0 #808080;
   width: 15rem;
   height: 15rem;
 `;

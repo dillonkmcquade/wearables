@@ -8,7 +8,7 @@ import Cart from "./Cart/Cart";
 import Login from "./Login";
 import CheckoutPage from "./Checkout/CheckoutPage";
 import ItemDetails from "./ItemDetails";
-import Signup from "../Signup";
+import Signup from "./Signup";
 import ThankYou from "./ThankYou/ThankYou";
 import Header from "./Header/Header";
 

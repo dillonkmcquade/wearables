@@ -2,9 +2,9 @@ import React from "react";
 import { styled } from "styled-components";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { ItemContext } from "../ItemContext";
-import { CompanyContext } from "../CompanyContext";
-import { UserContext } from "../UserContext";
+import { ItemContext } from "../context/ItemContext";
+import { CompanyContext } from "../context/CompanyContext";
+import { UserContext } from "../context/UserContext";
 
 const ItemDetails = () => {
   const { items } = useContext(ItemContext);
@@ -22,12 +22,12 @@ const ItemDetails = () => {
     setItem(foundItem);
 
     const matchedCompany = companies.find(
-      (company) => company._id === foundItem.companyId
+      (company) => company._id === foundItem.companyId,
     );
     if (matchedCompany) {
       setCompanyName(matchedCompany.name);
     }
-  }, []);
+  }, [id, items]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -114,7 +114,9 @@ const ItemContainer = styled.div`
   background-color: white;
   border-radius: 25px;
   font-weight: bold;
-  box-shadow: 0 2px 4px 0 #808080, 0 4px 10px 0 #808080;
+  box-shadow:
+    0 2px 4px 0 #808080,
+    0 4px 10px 0 #808080;
 `;
 const ItemWrapper = styled.div``;
 const DropDown = styled.div`

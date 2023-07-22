@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../context/UserContext";
 
 export const useCart = () => {
   const [cart, setCart] = useState();
@@ -20,9 +20,7 @@ export const useCart = () => {
     };
     if (currentUser) {
       getCart();
-    } else {
-      return;
     }
   }, []);
-  return { setCart, cart, currentUser };
+  return { setCart, cart };
 };

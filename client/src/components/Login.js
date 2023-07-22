@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { UserContext } from "../UserContext";
+import { UserContext } from "../context/UserContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -40,16 +40,16 @@ const Login = () => {
           window.alert("Signed in Succesfully!");
           window.localStorage.setItem(
             "user",
-            JSON.stringify(parse.data.cartId)
+            JSON.stringify(parse.data.cartId),
           );
           window.localStorage.setItem(
             "name",
-            JSON.stringify(parse.data.firstName)
+            JSON.stringify(parse.data.firstName),
           );
           setName(parse.data.firstName);
           setCurrentUser(parse.data.cartId);
           navigate("/");
-        } else if (parse.status === 404){
+        } else if (parse.status === 404) {
           window.alert(JSON.stringify(parse.data));
         }
       })
@@ -114,7 +114,9 @@ const LoginForm = styled.form`
   align-items: center;
   justify-content: center;
   padding: 3em 3em 2em 3em;
-  box-shadow: 0 2px 4px 0 #808080, 0 4px 10px 0 #808080;
+  box-shadow:
+    0 2px 4px 0 #808080,
+    0 4px 10px 0 #808080;
   div {
     margin-bottom: 1em;
   }

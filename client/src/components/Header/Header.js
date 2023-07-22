@@ -5,7 +5,7 @@ import { HiMagnifyingGlass, HiOutlineUser } from "react-icons/hi2";
 import { NavLink } from "react-router-dom";
 import CatBurger from "./CatBurger";
 import { useContext } from "react";
-import { UserContext } from "../../UserContext";
+import { UserContext } from "../../context/UserContext";
 
 const Header = () => {
   const { name, currentUser } = useContext(UserContext);

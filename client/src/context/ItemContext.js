@@ -28,7 +28,7 @@ export const ItemProvider = ({ children }) => {
     if (!items) {
       fetchData();
     }
-  }, []);
+  }, [fetchData]);
   return (
     <ItemContext.Provider
       value={{ items, loadingItems, setLoadingItems, fetchData }}

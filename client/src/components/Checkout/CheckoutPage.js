@@ -3,13 +3,13 @@ import PurchaseForm from "./PurchaseForm";
 import PurchaseSummary from "./PurchaseSummary";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../../UserContext";
-import { ItemContext } from "../../ItemContext";
+import { UserContext } from "../../context/UserContext";
+import { ItemContext } from "../../context/ItemContext";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({});
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState([]);
   const { fetchData } = useContext(ItemContext);
   const { currentUser } = useContext(UserContext);
 

@@ -1,17 +1,19 @@
 /*
 Fetch cart from DB, filter items in cache to display the user's cart
 */
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-import { useCart } from "./useCart";
+import { useCart } from "../../hooks/useCart";
 import CartItem from "./CartItem";
 import SubTotal from "./SubTotal";
+import { UserContext } from "../../context/UserContext";
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { cart, setCart, currentUser } = useCart();
+  const { cart, setCart } = useCart();
+  const { currentUser } = useContext(UserContext);
   useEffect(() => {
     if (!currentUser) {
       navigate("/signin");

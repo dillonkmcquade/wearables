@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { useEffect, useState, useContext } from "react";
-import { ItemContext } from "../ItemContext";
+import { ItemContext } from "../context/ItemContext";
 import { NavLink, useParams } from "react-router-dom";
 
 const Categories = () => {
@@ -17,7 +17,7 @@ const Categories = () => {
     }
 
     const filteredItemsArray = items.filter(
-      (item) => item.category === filterValue
+      (item) => item.category === filterValue,
     );
     setFilteredItems(filteredItemsArray);
   }, [id, items]);
@@ -77,7 +77,9 @@ const ItemWrapper = styled(NavLink)`
   text-decoration: none;
   margin: 1.5rem;
   padding: 1rem;
-  box-shadow: 0 2px 4px 0 #808080, 0 4px 10px 0 #808080;
+  box-shadow:
+    0 2px 4px 0 #808080,
+    0 4px 10px 0 #808080;
 `;
 const Flex = styled.div`
   display: flex;
@@ -95,7 +97,9 @@ const Name = styled.div`
   border-radius: 30px;
   display: inline-block;
   padding: 0 1em 0 1em;
-  box-shadow: 0 2px 4px 0 #808080, 0 4px 10px 0 #808080;
+  box-shadow:
+    0 2px 4px 0 #808080,
+    0 4px 10px 0 #808080;
 `;
 const Pictures = styled.img`
   border-radius: 20px;
