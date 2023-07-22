@@ -87,10 +87,7 @@ const Flex = styled.div`
 `;
 const Name = styled.div`
   text-align: center;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 1em auto;
   font-size: 3em;
   background-color: #06013b;
   color: white;
