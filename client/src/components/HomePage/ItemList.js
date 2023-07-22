@@ -10,18 +10,16 @@ const ItemList = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (items) {
-      setFilteredItems(() => {
-        if (category === null) {
-          return items;
-        } else {
-          return items.filter((item) => {
-            return item.category === category;
-          });
-        }
-      });
-    }
-  }, [category, items]);
+    setFilteredItems(() => {
+      if (category === null) {
+        return items;
+      } else {
+        return items.filter((item) => {
+          return item.category === category;
+        });
+      }
+    });
+  }, []);
 
   const getRandomItems = () => {
     const randomItems = [];
@@ -33,7 +31,7 @@ const ItemList = () => {
   };
 
   return (
-    items && (
+    filteredItems && (
       <ItemsContainer>
         <CheckboxList>
           <Label>

@@ -1,13 +1,6 @@
 "use strict";
-const { MongoClient } = require("mongodb");
 
-require("dotenv").config();
-const { MONGO_URI } = process.env;
-
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+const { collections } = require("../services/database.service");
 
 const updateItemFromCart = async (request, response) => {
   //_id is the item id
@@ -33,14 +26,10 @@ const updateItemFromCart = async (request, response) => {
       .json({ status: 400, message: "Missing item quantity" });
   }
 
-  const client = new MongoClient(MONGO_URI, options);
-
   try {
-    await client.connect();
-    const db = client.db("e-commerce");
-
+    const { carts } = collections;
     //getting the array of items from the user`s cart
-    const cartData = await db.collection("carts").findOne({ _id: cartId });
+    const cartData = await carts.findOne({ _id: cartId });
     !cartData &&
       response.status(404).json({ status: 404, message: "Not Found" });
     const itemsArray = cartData.cartItems;
@@ -49,9 +38,10 @@ const updateItemFromCart = async (request, response) => {
 
     if (containsItem) {
       //find the quantity already in the cart
-      const cartItem = await db
-        .collection("carts")
-        .findOne({ _id: cartId, "cartItems._id": _id });
+      const cartItem = await carts.findOne({
+        _id: cartId,
+        "cartItems._id": _id,
+      });
       !cartItem &&
         response
           .status(404)
@@ -72,9 +62,11 @@ const updateItemFromCart = async (request, response) => {
           ],
         };
 
-        const resultUpdateItems = await db
-          .collection("carts")
-          .updateOne(query, updateDocument, options);
+        const resultUpdateItems = await carts.updateOne(
+          query,
+          updateDocument,
+          options,
+        );
         //testing block
         if (!resultUpdateItems.matchedCount) {
           response
@@ -97,10 +89,8 @@ const updateItemFromCart = async (request, response) => {
       }
     }
   } catch (err) {
-    (err) => console.log(err);
+    console.log(err.message);
     response.status(500).json({ status: 500, message: "Server error" });
-  } finally {
-    client.close();
   }
 };
 

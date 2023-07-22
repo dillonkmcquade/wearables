@@ -3,35 +3,24 @@
 */
 
 "use strict";
-const { MongoClient } = require("mongodb");
 
-require("dotenv").config();
-const { MONGO_URI } = process.env;
-
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+const { collections } = require("../services/database.service");
 
 const getAllCompanies = async (request, response) => {
   const { limit = 24, start = 0 } = request.query;
-  const client = new MongoClient(MONGO_URI, options);
   const parsedLimit = parseInt(limit);
   const parsedStart = parseInt(start);
 
   try {
-    await client.connect();
-    const db = client.db("e-commerce");
-
-    const resultGetAll = await db
-      .collection("companies")
+    const { companies } = collections;
+    const resultGetAll = await companies
       .find()
       .skip(parsedStart)
       .limit(parsedLimit)
       .toArray();
 
     // Get the total number of items in the collection
-    const totalItems = await db.collection("companies").countDocuments();
+    const totalItems = await companies.countDocuments();
 
     // Fetch the items with pagination
     resultGetAll
@@ -44,10 +33,8 @@ const getAllCompanies = async (request, response) => {
         })
       : response.status(404).json({ status: 404, data: "Not Found" });
   } catch (err) {
-    console.error(err);
+    console.error(err.message);
     response.status(500).json({ status: 500, data: "Server error" });
-  } finally {
-    client.close();
   }
 };
 

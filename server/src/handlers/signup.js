@@ -1,23 +1,8 @@
 "use strict";
 //this is the latest version
-const { MongoClient } = require("mongodb");
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
-
-require("dotenv").config();
-const { MONGO_URI } = process.env;
-
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-//encrypting function
-const hashAPassword = async (incomingPassword) => {
-  const hashedPassword = await bcrypt.hash(incomingPassword, 10);
-
-  return hashedPassword;
-};
+const { collections } = require("../services/database.service");
 
 const signup = async (request, response) => {
   const { email, password, firstName, lastName, phoneNumber, address } =
@@ -43,16 +28,12 @@ const signup = async (request, response) => {
     });
   }
 
-  const client = new MongoClient(MONGO_URI, options);
-
   try {
-    await client.connect();
-    const db = client.db("e-commerce");
-
+    const { auth, users, carts } = collections;
     //checking if there is already any auth with this email
-    const resultDuplicateAuth = await db
-      .collection("auth")
-      .findOne({ _id: email.toLowerCase() });
+    const resultDuplicateAuth = await auth.findOne({
+      _id: email.toLowerCase(),
+    });
     if (resultDuplicateAuth) {
       return response
         .status(409)
@@ -60,11 +41,11 @@ const signup = async (request, response) => {
     }
 
     //encrypting the the given password
-    const encryptedPassword = await hashAPassword(password);
+    const encryptedPassword = await bcrypt.hash(password, 10);
     const authData = { _id: email.toLowerCase(), password: encryptedPassword };
 
     //adding an authentication object
-    const resultAddAuth = await db.collection("auth").insertOne(authData);
+    const resultAddAuth = await auth.insertOne(authData);
     !resultAddAuth &&
       response
         .status(400)
@@ -72,16 +53,16 @@ const signup = async (request, response) => {
 
     // generating unique cartID
     let cartId = uuidv4();
-    let isDuplicate = await db.collection("users").findOne({ cartId: cartId });
+    let isDuplicate = await users.findOne({ cartId: cartId });
     while (isDuplicate) {
       cartId = uuidv4();
-      isDuplicate = await db.collection("users").findOne({ cartId: cartId });
+      isDuplicate = await users.findOne({ cartId: cartId });
     }
 
     //checking if user object already exist
-    const resultDuplicateUser = await db
-      .collection("users")
-      .findOne({ _id: email.toLowerCase() });
+    const resultDuplicateUser = await users.findOne({
+      _id: email.toLowerCase(),
+    });
     if (resultDuplicateUser) {
       return response
         .status(409)
@@ -100,14 +81,14 @@ const signup = async (request, response) => {
     };
 
     //creating a new user
-    const resultAddUser = await db.collection("users").insertOne(userData);
+    const resultAddUser = await users.insertOne(userData);
     !resultAddUser &&
       response
         .status(400)
         .json({ status: 400, message: "Bad request", data: userData });
 
     const cartData = { _id: cartId, cartItems: [] };
-    const resultAddCart = await db.collection("carts").insertOne(cartData);
+    const resultAddCart = await carts.insertOne(cartData);
     !resultAddCart &&
       response
         .status(400)
@@ -117,10 +98,8 @@ const signup = async (request, response) => {
       .status(201)
       .json({ status: 201, message: "Account successfully created" });
   } catch (err) {
-    (err) => console.log(err);
+    console.log(err.message);
     response.status(500).json({ status: 500, message: "Server error" });
-  } finally {
-    client.close();
   }
 };
 

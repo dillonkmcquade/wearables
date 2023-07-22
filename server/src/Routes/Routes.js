@@ -9,7 +9,6 @@ const { addItemToCart } = require("../handlers/addItemToCart");
 const { checkout } = require("../handlers/checkout");
 const { signup } = require("../handlers/signup");
 const { signin } = require("../handlers/signin.js");
-const { addOrder } = require("../handlers/addOrder.js");
 const { getCart } = require("../handlers/getCart");
 const { getAllItemNames } = require("../handlers/getAllItemNames");
 
@@ -20,7 +19,6 @@ router.get("/itemnames", getAllItemNames);
 router.get("/companies", getAllCompanies);
 router.get("/companies/:_id", getOneCompany);
 router.get("/cart/:_id", getCart);
-router.post("/order", addOrder);
 router.post("/checkout", checkout);
 router.post("/signup", signup);
 router.post("/checkout", checkout);

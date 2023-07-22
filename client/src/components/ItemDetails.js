@@ -18,18 +18,17 @@ const ItemDetails = () => {
 
   useEffect(() => {
     const foundItem = items.find((item) => item._id === parseInt(id));
-
     setItem(foundItem);
-
     const matchedCompany = companies.find(
       (company) => company._id === foundItem.companyId,
     );
     if (matchedCompany) {
       setCompanyName(matchedCompany.name);
     }
-  }, [id, items]);
+  }, []);
 
   const handleSubmit = (event) => {
+    if (!currentUser) return;
     event.preventDefault();
 
     const data = {

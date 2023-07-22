@@ -138,7 +138,9 @@ const LoginForm = styled.form`
   flex-direction: column;
   background-color: #06013b;
   border-radius: 40px;
-  box-shadow: 0 2px 4px 0 #808080, 0 4px 10px 0 #808080;
+  box-shadow:
+    0 2px 4px 0 #808080,
+    0 4px 10px 0 #808080;
   justify-content: center;
   padding: 3em 3em 2em 3em;
   div {

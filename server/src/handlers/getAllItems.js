@@ -1,41 +1,33 @@
 "use strict";
-const { MongoClient } = require("mongodb");
-//const { v4: uuidv4 } = require("uuid");// if needed
 
-require("dotenv").config();
-const { MONGO_URI } = process.env;
-
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
+const { collections } = require("../services/database.service");
 
 // Handler for getting all items with pagination
 const getAllItems = async (request, response) => {
-  const client = new MongoClient(MONGO_URI, options);
-
   try {
-    await client.connect();
-    const db = client.db("e-commerce");
-    const collection = db.collection("items");
-    
+    const { items } = collections;
     // Extract the limit and start parameters from the request query
-    const { limit = 25, start = 0 } = request.query
+    const { limit = 25, start = 0 } = request.query;
 
     // Parse the limit and start values as integers
     const parsedLimit = parseInt(limit);
     const parsedStart = parseInt(start);
 
     // Get the total number of items in the collection
-    const totalItems = await collection.countDocuments();
+    const totalItems = await items.countDocuments();
 
     // Fetch the items with pagination
-    const resultGetAll = await collection
-    .find()
-    .skip(parsedStart)
-    .limit(parsedLimit)
-    .toArray();
-   
+    const resultGetAll = await items
+      .find()
+      .skip(parsedStart)
+      .limit(parsedLimit)
+      .toArray();
+    if (resultGetAll.length === 0) {
+      return response
+        .status(404)
+        .json({ status: 404, message: "No items found" });
+    }
+
     // Send the response with the retrieved items and pagination details
     response.status(200).json({
       status: 200,
@@ -45,10 +37,8 @@ const getAllItems = async (request, response) => {
       start: parsedStart,
     });
   } catch (err) {
-    console.log(err);
+    console.log(err.message);
     response.status(500).json({ status: 500, error: "Internal Server Error" });
-  } finally {
-    client.close();
   }
 };
 

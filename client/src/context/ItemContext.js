@@ -8,18 +8,21 @@ export const ItemProvider = ({ children }) => {
   const [loadingItems, setLoadingItems] = useState(true);
   const [items, setItems] = useState(() => {
     // This identifies the user by its cartId
-    const items = window.localStorage.getItem("items");
-    if (items) {
-      return JSON.parse(items);
+    const cachedItems = window.localStorage.getItem("items");
+    if (cachedItems !== undefined) {
+      return JSON.parse(cachedItems);
+    } else {
+      return null;
     }
-    return null;
   });
   const fetchData = async function () {
     try {
       const request = await fetch("/items?start=0&limit=348");
-      const { data } = await request.json();
-      window.localStorage.setItem("items", JSON.stringify(data));
-      setItems(data);
+      const response = await request.json();
+      if (response.status === 200) {
+        window.localStorage.setItem("items", JSON.stringify(response.data));
+        setItems(response.data);
+      }
     } catch (err) {
       console.error(err.message);
     }
@@ -28,7 +31,7 @@ export const ItemProvider = ({ children }) => {
     if (!items) {
       fetchData();
     }
-  }, [fetchData]);
+  }, []);
   return (
     <ItemContext.Provider
       value={{ items, loadingItems, setLoadingItems, fetchData }}
