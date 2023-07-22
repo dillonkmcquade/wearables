@@ -60,11 +60,6 @@ const ItemContainer = styled.div`
   }
 `;
 const ItemWrapper = styled(NavLink)`
-  /* border: solid 2px black; */
-  /* border-radius: 20px;
-    background-color: white;
-    margin: 1em;
-    color: black; */
   background-color: white;
   border-radius: 3rem;
   display: flex;
