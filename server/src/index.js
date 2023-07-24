@@ -2,8 +2,11 @@
 
 const express = require("express");
 const morgan = require("morgan");
-const router = require("./Routes/Routes");
 const { connectToDatabase } = require("./services/database.service");
+const authRouter = require("./Routes/auth");
+const cartRouter = require("./Routes/cart");
+const itemRouter = require("./Routes/items");
+const companyRouter = require("./Routes/companies");
 
 const PORT = process.env.PORT || 4000;
 
@@ -23,7 +26,10 @@ connectToDatabase()
       .use(express.json())
       .use(express.urlencoded({ extended: false }))
       .use("/", express.static(__dirname + "/"))
-      .use(router)
+      .use("/auth", authRouter)
+      .use("/cart", cartRouter)
+      .use("/items", itemRouter)
+      .use("/companies", companyRouter)
       .listen(PORT, () => console.log(`Listening on port ${PORT}`));
   })
   .catch((error) => console.error(error.message));

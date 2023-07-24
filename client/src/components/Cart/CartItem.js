@@ -6,7 +6,7 @@ export default function CartItem({ cart, setCart, item, currentUser }) {
   const [qty, setQty] = useState(item.qty);
 
   const handleRemoveFromCart = async () => {
-    const request = await fetch(`/cart/${currentUser}/delete`, {
+    const request = await fetch(`/cart/delete/${currentUser}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +45,9 @@ export default function CartItem({ cart, setCart, item, currentUser }) {
 }
 const Item = styled.div`
   display: flex;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 3px 6px,
+    rgba(0, 0, 0, 0.23) 0px 3px 6px;
   padding: 15px;
   border-radius: 4px;
   @media (min-width: 500px) {

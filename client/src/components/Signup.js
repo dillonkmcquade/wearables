@@ -26,7 +26,7 @@ const Signup = () => {
       address: formData.address,
     };
     const newData = JSON.stringify(data);
-    fetch("/signup", {
+    fetch("/auth/signup", {
       method: "POST",
       headers: {
         Accept: "application/json",

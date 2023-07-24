@@ -10,7 +10,7 @@ export default function QtyDropDown({
   inventory,
 }) {
   const updateCartItem = async (event) => {
-    const request = await fetch(`/update-item-from-cart/${currentUser}`, {
+    const request = await fetch(`/cart/update/${currentUser}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
