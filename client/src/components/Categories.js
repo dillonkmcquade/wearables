@@ -39,19 +39,15 @@ const Categories = () => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  min-height: 100vh;
+`;
 const ItemContainer = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   padding: 2rem;
   color: white;
-  @media (max-width: 1400px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-  @media (max-width: 900px) {
-    grid-template-columns: repeat(1, 1fr);
-  }
 `;
 const ItemWrapper = styled(NavLink)`
   text-decoration: none;

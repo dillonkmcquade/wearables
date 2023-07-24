@@ -75,18 +75,14 @@ const ItemDetails = () => {
                   onChange={(event) => setQty(event.target.value)}
                   defaultValue={qty}
                 >
-                  {Array(10)
-                    .fill()
-                    .map((_item, index) => (
-                      <option key={index}>{index}</option>
-                    ))}
+                  {new Array(10).fill().map((_item, index) => (
+                    <option key={index}>{index}</option>
+                  ))}
                 </select>
               </DropDown>
-              {item.numInStock === 0 ? (
-                <Button disabled>{"Out of Stock"}</Button>
-              ) : (
-                <Button onClick={handleSubmit}>{"Add To Cart"}</Button>
-              )}
+              <Button disabled={!item.numInStock} onClick={handleSubmit}>
+                {item.numInStock === 0 ? "Out of stock" : "Add to cart"}
+              </Button>
             </Flex>
           </ItemWrapper>
         )}
@@ -125,21 +121,15 @@ const Button = styled.button`
   height: 4em;
   width: 10em;
   border: none;
-  border-radius: 15px;
+  border-radius: 0.4em;
   background-color: darkblue;
   transition-duration: 400ms;
   color: white;
   cursor: pointer;
-  &:hover:enabled {
-    transform: scale(1.1, 1.1);
-  }
-  /* &:active:enabled{
-        transform: scale(0.9, 0.9);
-        
-    } */
+
   &:disabled {
-    transition-duration: 400ms;
     background-color: grey;
+    cursor: not-allowed;
   }
 `;
 const Pictures = styled.img`
