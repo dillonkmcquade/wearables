@@ -24,7 +24,7 @@ const CheckoutPage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch("/checkout", {
+    fetch("/cart/checkout", {
       method: "POST",
       headers: {
         Accept: "application/json",

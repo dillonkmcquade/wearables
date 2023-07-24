@@ -36,7 +36,7 @@ const ItemDetails = () => {
       qty: qty,
     };
     const newData = JSON.stringify(data);
-    fetch(`/add-item-to-cart/${currentUser}`, {
+    fetch(`/cart/add/${currentUser}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
