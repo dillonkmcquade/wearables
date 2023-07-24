@@ -16,7 +16,6 @@ const HomePage = () => {
 export default HomePage;
 
 const Homepage = styled.div`
-  background-color: #e1e3eb;
   display: flex;
   justify-content: center;
   width: 100vw;

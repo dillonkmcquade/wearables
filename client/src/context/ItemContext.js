@@ -9,7 +9,7 @@ export const ItemProvider = ({ children }) => {
   const [items, setItems] = useState(() => {
     // This identifies the user by its cartId
     const cachedItems = window.localStorage.getItem("items");
-    if (cachedItems !== undefined) {
+    if (cachedItems) {
       return JSON.parse(cachedItems);
     } else {
       return null;

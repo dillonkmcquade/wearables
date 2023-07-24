@@ -96,8 +96,6 @@ const ItemDetails = () => {
 };
 
 const Wrapper = styled.div`
-  font-family: "Open Sans", sans-serif;
-  background-color: lightgrey;
   height: 100vh;
 `;
 const ItemContainer = styled.div`
@@ -105,13 +103,12 @@ const ItemContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* border: solid 5px grey; */
   margin-top: 10em;
   max-width: 50em;
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-  border-radius: 25px;
+  border-radius: 0.4rem;
   font-weight: bold;
   box-shadow:
     0 2px 4px 0 #808080,

@@ -2,155 +2,118 @@ import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { ItemContext } from "../../context/ItemContext";
+import ItemCard from "../ItemCard";
 
 const ItemList = () => {
-  const [category, setCategory] = useState(null);
-  const [filteredItems, setFilteredItems] = useState([]);
   const { items } = useContext(ItemContext);
+  const [category, setCategory] = useState("Lifestyle");
+  const [randomItems, setRandomItems] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setFilteredItems(() => {
-      if (category === null) {
-        return items;
-      } else {
-        return items.filter((item) => {
-          return item.category === category;
-        });
-      }
-    });
-  }, []);
-
-  const getRandomItems = () => {
+    if (items) {
+      const filtered = items.filter((item) => {
+        return item.category === category;
+      });
+      setRandomItems(getRandomItems(filtered));
+    }
+  }, [category, items]);
+  const getRandomItems = (filtered) => {
     const randomItems = [];
-    const shuffledItems = [...filteredItems].sort(() => Math.random() - 0.5);
-    for (let i = 0; i < filteredItems.length; i++) {
+    const shuffledItems = [...filtered].sort(() => Math.random() - 0.5);
+    for (let i = 0; i < 10; i++) {
       randomItems.push(shuffledItems[i]);
     }
-    return randomItems.slice(0, 10);
+    return randomItems;
+  };
+
+  const handleChange = function (event) {
+    setCategory(event.target.value);
   };
 
   return (
-    filteredItems && (
-      <ItemsContainer>
-        <CheckboxList>
-          <Label>
-            Lifestyle
-            <input
-              type="checkbox"
-              checked={category === "Lifestyle"}
-              value="Lifestyle"
-              onChange={() => {
-                category === "Lifestyle"
-                  ? setCategory(null)
-                  : setCategory("Lifestyle");
-              }}
-            />
-          </Label>
-          <Label>
-            Fitness
-            <input
-              type="checkbox"
-              name="Category"
-              value="Fitness"
-              checked={category === "Fitness"}
-              onChange={() => {
-                category === "Fitness"
-                  ? setCategory(null)
-                  : setCategory("Fitness");
-              }}
-            />
-          </Label>
-          <Label>
-            Medical
-            <input
-              type="checkbox"
-              name="Category"
-              value="Medical"
-              checked={category === "Medical"}
-              onChange={() => {
-                category === "Medical"
-                  ? setCategory(null)
-                  : setCategory("Medical");
-              }}
-            />
-          </Label>
-          <Label>
-            Entertainment
-            <input
-              type="checkbox"
-              name="Category"
-              value="Entertainment"
-              checked={category === "Entertainment"}
-              onChange={() => {
-                category === "Entertainment"
-                  ? setCategory(null)
-                  : setCategory("Entertainment");
-              }}
-            />
-          </Label>
-          <Label>
-            Industrial
-            <input
-              type="checkbox"
-              name="Category"
-              value="Industrial"
-              checked={category === "Industrial"}
-              onChange={() => {
-                category === "Industrial"
-                  ? setCategory(null)
-                  : setCategory("Industrial");
-              }}
-            />
-          </Label>
-          <Label>
-            Pets and Animals
-            <input
-              type="checkbox"
-              name="Category"
-              value="Pets and Animals"
-              checked={category === "Pets and Animals"}
-              onChange={() => {
-                category === "Pets and Animals"
-                  ? setCategory(null)
-                  : setCategory("Pets and Animals");
-              }}
-            />
-          </Label>
-          <Label>
-            Gaming
-            <input
-              type="checkbox"
-              name="Category"
-              value="Gaming"
-              checked={category === "Gaming"}
-              onChange={() => {
-                category === "Gaming"
-                  ? setCategory(null)
-                  : setCategory("Gaming");
-              }}
-            />
-          </Label>
-        </CheckboxList>
-        <Itemlist>
-          {items.length > 0 &&
-            getRandomItems().map((item) => {
-              return (
-                <ItemBox
-                  key={item._id}
-                  onClick={() => {
-                    navigate(`/items/${item._id}`);
-                  }}
-                >
-                  {item.name}
-                  <Image src={`${item.imageSrc}`} />
-                  {item.price}
-                </ItemBox>
-              );
-            })}
-        </Itemlist>
-      </ItemsContainer>
-    )
+    <ItemsContainer>
+      <CheckboxList>
+        <Label>
+          Lifestyle
+          <input
+            type="radio"
+            name="Category"
+            value="Lifestyle"
+            defaultChecked
+            onChange={handleChange}
+          />
+        </Label>
+        <Label>
+          Fitness
+          <input
+            type="radio"
+            name="Category"
+            value="Fitness"
+            onChange={handleChange}
+          />
+        </Label>
+        <Label>
+          Medical
+          <input
+            type="radio"
+            name="Category"
+            value="Medical"
+            onChange={handleChange}
+          />
+        </Label>
+        <Label>
+          Entertainment
+          <input
+            type="radio"
+            name="Category"
+            value="Entertainment"
+            onChange={handleChange}
+          />
+        </Label>
+        <Label>
+          Industrial
+          <input
+            type="radio"
+            name="Category"
+            value="Industrial"
+            onChange={handleChange}
+          />
+        </Label>
+        <Label>
+          Pets and Animals
+          <input
+            type="radio"
+            name="Category"
+            value="Pets and Animals"
+            onChange={handleChange}
+          />
+        </Label>
+        <Label>
+          Gaming
+          <input
+            type="radio"
+            name="Category"
+            value="Gaming"
+            onChange={handleChange}
+          />
+        </Label>
+      </CheckboxList>
+      <Itemlist>
+        {randomItems &&
+          randomItems.map((item) => {
+            return (
+              <ItemCard
+                key={item._id}
+                handler={() => {
+                  navigate(`/items/${item._id}`);
+                }}
+                item={item}
+              />
+            );
+          })}
+      </Itemlist>
+    </ItemsContainer>
   );
 };
 
@@ -185,23 +148,6 @@ const Itemlist = styled.div`
     justify-items: center;
   }
 `;
-const ItemBox = styled.div`
-  background-color: white;
-  border-radius: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #06013b;
-  text-align: center;
-  margin: 2rem;
-  padding: 1rem;
-  box-shadow:
-    0 2px 4px 0 #808080,
-    0 4px 10px 0 #808080;
-  width: 15rem;
-  height: 15rem;
-`;
 const CheckboxList = styled.div`
   display: flex;
   align-items: center;
@@ -234,8 +180,4 @@ const Label = styled.label`
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
   }
-`;
-const Image = styled.img`
-  height: 6.25rem;
-  width: 6.25rem;
 `;

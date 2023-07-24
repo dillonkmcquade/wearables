@@ -2,6 +2,7 @@
 
 const express = require("express");
 const morgan = require("morgan");
+const compression = require("compression");
 const { connectToDatabase } = require("./services/database.service");
 const authRouter = require("./Routes/auth");
 const cartRouter = require("./Routes/cart");
@@ -22,6 +23,7 @@ connectToDatabase()
         res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
         next();
       })
+      .use(compression())
       .use(morgan("dev"))
       .use(express.json())
       .use(express.urlencoded({ extended: false }))

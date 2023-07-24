@@ -3,6 +3,7 @@ import { styled } from "styled-components";
 import { useEffect, useState, useContext } from "react";
 import { ItemContext } from "../context/ItemContext";
 import { NavLink, useParams } from "react-router-dom";
+import ItemCard from "./ItemCard";
 
 const Categories = () => {
   const { items } = useContext(ItemContext);
@@ -30,9 +31,7 @@ const Categories = () => {
       <ItemContainer>
         {filteredItems.map((item) => (
           <ItemWrapper to={`/items/${item._id}`} key={item._id}>
-            <Pictures src={item.imageSrc} alt="Item" />
-            <Price>{item.price}</Price>
-            <ItemName>{item.name}</ItemName>
+            <ItemCard item={item} />
           </ItemWrapper>
         ))}
       </ItemContainer>
@@ -40,13 +39,8 @@ const Categories = () => {
   );
 };
 
-const Wrapper = styled.div`
-  font-family: "Open Sans", sans-serif;
-  background-color: lightgrey;
-`;
+const Wrapper = styled.div``;
 const ItemContainer = styled.div`
-  /* display: flex;
-    flex-wrap: wrap; */
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 2rem;
@@ -60,21 +54,7 @@ const ItemContainer = styled.div`
   }
 `;
 const ItemWrapper = styled(NavLink)`
-  background-color: white;
-  border-radius: 3rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  color: #06013b;
-  text-align: center;
   text-decoration: none;
-  margin: 1.5rem;
-  padding: 1rem;
-  box-shadow:
-    0 2px 4px 0 #808080,
-    0 4px 10px 0 #808080;
 `;
 const Flex = styled.div`
   display: flex;
@@ -92,19 +72,5 @@ const Name = styled.div`
   box-shadow:
     0 2px 4px 0 #808080,
     0 4px 10px 0 #808080;
-`;
-const Pictures = styled.img`
-  border-radius: 20px;
-`;
-const Price = styled.div`
-  margin: 1em;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
-  font-weight: bold;
-  text-align: center;
-`;
-const ItemName = styled.div`
-  max-width: 10em;
-  font-weight: bold;
-  margin: 1em;
 `;
 export default Categories;

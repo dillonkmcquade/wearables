@@ -57,6 +57,7 @@ const Signup = () => {
               <Input
                 type="email"
                 id="email"
+                required
                 onChange={(event) =>
                   handleChange(event.target.id, event.target.value)
                 }
@@ -67,6 +68,7 @@ const Signup = () => {
               <Input
                 type="text"
                 id="firstName"
+                required
                 onChange={(event) =>
                   handleChange(event.target.id, event.target.value)
                 }
@@ -77,6 +79,7 @@ const Signup = () => {
               <Input
                 type="text"
                 id="lastName"
+                required
                 onChange={(event) =>
                   handleChange(event.target.id, event.target.value)
                 }
@@ -87,6 +90,7 @@ const Signup = () => {
               <Input
                 type="text"
                 id="phoneNumber"
+                required
                 onChange={(event) =>
                   handleChange(event.target.id, event.target.value)
                 }
@@ -97,6 +101,7 @@ const Signup = () => {
               <Input
                 type="text"
                 id="address"
+                required
                 onChange={(event) =>
                   handleChange(event.target.id, event.target.value)
                 }
@@ -107,6 +112,7 @@ const Signup = () => {
               <Input
                 type="password"
                 id="password"
+                required
                 onChange={(event) =>
                   handleChange(event.target.id, event.target.value)
                 }
