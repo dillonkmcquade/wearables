@@ -6,18 +6,22 @@ export default function CartItem({ cart, setCart, item, currentUser }) {
   const [qty, setQty] = useState(item.qty);
 
   const handleRemoveFromCart = async () => {
-    const request = await fetch(`/cart/delete/${currentUser}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        itemId: item._id,
-      }),
-    });
-    const response = await request.json();
-    if (response.status === 200) {
-      setCart(response.cartItems);
+    try {
+      const request = await fetch(`/cart/delete/${currentUser.cartId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          itemId: item._id,
+        }),
+      });
+      const response = await request.json();
+      if (response.status === 200) {
+        setCart(response.cartItems);
+      }
+    } catch (error) {
+      console.error(error.message);
     }
   };
   return (

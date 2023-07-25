@@ -5,7 +5,7 @@ const GlobalStyles = createGlobalStyle`
 body {
   min-width: 400px;
   background-color: #e1e3eb;  
-    font-family: futura-pt,"system-ui",Helvetica Neue,"sans-serif";
+  font-family: futura-pt,"system-ui",Helvetica Neue,"sans-serif";
 }
 
 html, body, div, span, applet, object, iframe,
