@@ -33,9 +33,9 @@ export default function SubTotal({ cart }) {
       </SubSection>
       <Checkout
         disabled={!total ? true : false}
-        color={total ? "#4287f5" : "gray"}
-        hovercolor={total ? "#4278f5" : ""}
-        cursor={total ? "pointer" : "not-allowed"}
+        $bgcolor={total && "#4287f5"}
+        $hovercolor={total && "#4278f5"}
+        $cursor={total && "pointer"}
         onClick={() => redirect("/checkout")}
       >
         Proceed to checkout
@@ -47,6 +47,7 @@ export default function SubTotal({ cart }) {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-self: flex-end;
   padding: 15px;
   margin-left: 15px;
   margin-top: 25px;
@@ -70,19 +71,19 @@ const Bold = styled.p`
 `;
 
 const Checkout = styled.button`
-  background-color: ${(props) => props.color};
+  background-color: ${(props) => props.$bgcolor || "gray"};
   color: white;
   border: none;
   border-radius: 10px;
   padding: 10px;
-  cursor: ${(props) => props.cursor};
+  cursor: ${(props) => props.$cursor || "not-allowed"};
   margin-top: 10px;
   text-decoration: none;
   align-self: flex-end;
   transition: all ease-in-out 0.1s;
 
   &:hover {
-    background-color: ${(props) => props.hovercolor};
+    background-color: ${(props) => props.$hovercolor || ""};
   }
   &:active {
     scale: 0.9;

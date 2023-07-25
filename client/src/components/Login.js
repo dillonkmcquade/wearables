@@ -8,6 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext);
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (key, value) => {
     setFormData({
@@ -18,6 +19,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
 
     try {
       const request = await fetch("/auth/signin", {
@@ -29,12 +31,18 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
       const data = await request.json();
-      if (data.status === 200) {
-        window.alert("Signed in Succesfully!");
-        setCurrentUser(data["data"]);
+      const getCart = await fetch(`/cart/${data.data.cartId}`);
+      const response = await getCart.json();
+      if (response.status === 200) {
+        setCurrentUser({
+          ...data.data,
+          cartQty: response.data.cartItems.length,
+        });
+        setLoading(false);
         navigate("/");
       }
     } catch (error) {
+      setLoading(false);
       console.error(error.message);
     }
   };
@@ -70,7 +78,9 @@ const Login = () => {
           </FormGroup>
         </Flex>
         <Signup to="/signup">Don't have an account? sign up now!</Signup>
-        <Button type="submit">Log In</Button>
+        <Button disabled={loading} type="submit">
+          {loading ? "Please wait..." : "Log In"}
+        </Button>
       </LoginForm>
     </Wrapper>
   );

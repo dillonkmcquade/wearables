@@ -18,7 +18,7 @@ const CatBurger = () => {
   }, [location]);
   return (
     <Wrapper>
-      <Hamburger onClick={() => setOpen(!open)} size={20} />
+      <Hamburger onClick={() => setOpen(open ? false : true)} size={20} />
       <Menu className={`${open ? "active" : "inactive"}`}>
         <ul>
           <Item to="/categories/Lifestyle">LifeStyle</Item>
@@ -43,18 +43,17 @@ const Menu = styled.div`
   position: absolute;
   margin-top: 1.5em;
   background-color: white;
+  top: 1rem;
   color: black;
-  padding: 1em 0.5em 1em 0.5em;
+  padding: 0.5rem;
   box-shadow: 0px 0px 13px 0px #000000;
   transition: 500ms;
   ul {
     display: flex;
     flex-direction: column;
-  }
-  h3 {
-    margin-bottom: 1em;
-    text-align: center;
-    border-bottom: 1px black solid;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    height: 100%;
   }
   &:active {
     opacity: 1;

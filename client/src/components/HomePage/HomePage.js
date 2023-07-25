@@ -1,6 +1,6 @@
 import ItemList from "./ItemList";
 import Featured from "./Featured";
-import styled from "styled-components";
+import { styled, keyframes } from "styled-components";
 
 const HomePage = () => {
   return (
@@ -46,20 +46,19 @@ const Title = styled.h1`
   color: black;
 `;
 
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  ,
+  to {
+    opacity: 1;
+  }
+`;
 const HeroTitle = styled(Title)`
   color: white;
-  animation: fadeIn ease-in-out 3s;
+  animation: ${fadeIn} ease-in-out 3s;
   font-size: 3.5rem;
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0;
-    }
-    ,
-    100% {
-      opacity: 1;
-    }
-  }
 `;
 
 const Rule = styled.hr`

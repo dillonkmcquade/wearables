@@ -1,14 +1,25 @@
-import React from "react";
+import { useContext } from "react";
 import { styled } from "styled-components";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { HiMagnifyingGlass, HiOutlineUser } from "react-icons/hi2";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import CatBurger from "./CatBurger";
-import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 const Header = () => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  const logout = function () {
+    setCurrentUser(null);
+    navigate("/");
+  };
+  const handleSignIn = function () {
+    if (currentUser) {
+      logout();
+    } else {
+      navigate("/signin");
+    }
+  };
 
   return (
     <Wrapper>
@@ -16,17 +27,18 @@ const Header = () => {
         <Title to="/">Wearables</Title>
         <Search>
           <CatBurger />
-          <form>
-            <Input placeholder="What do you need?" />
-            <SearchIcon size={25} />
-          </form>
+          <Input type="text" placeholder="What do you need?" />
+          <SearchIcon size={25} />
         </Search>
         <Cart to={currentUser ? "/cart" : "/"}>
-          <AiOutlineShoppingCart size={25} />
+          <ShoppingCart>
+            <AiOutlineShoppingCart size={25} />
+            {currentUser && <Badge>{currentUser.cartQty}</Badge>}
+          </ShoppingCart>
         </Cart>
-        <SignIn to={currentUser ? "/" : "/signin"}>
+        <SignIn onClick={handleSignIn}>
           <HiOutlineUser size={25} />
-          <span>{currentUser ? currentUser.firstName : "Log in"}</span>
+          <span>{currentUser ? "Log out" : "Log in"}</span>
         </SignIn>
       </Content>
     </Wrapper>
@@ -54,14 +66,6 @@ const Search = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    @media (max-width: 768px) {
-      display: none;
-    }
-  }
 `;
 const SearchIcon = styled(HiMagnifyingGlass)`
   color: white;
@@ -71,9 +75,12 @@ const Input = styled.input`
   width: 30em;
   height: 2em;
   border: none;
-  border-radius: 0.4em;
+  border-radius: 0.2em;
+  padding: 0 0.3rem;
+  outline: none;
 `;
-const SignIn = styled(NavLink)`
+const SignIn = styled.div`
+  cursor: pointer;
   color: white;
   display: flex;
   align-items: center;
@@ -88,5 +95,22 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   width: 95%;
+`;
+
+const ShoppingCart = styled.div`
+  height: 25px;
+  width: 25px;
+`;
+const Badge = styled.div`
+  text-align: center;
+  position: relative;
+  top: -25px;
+  right: -20px;
+  height: 10px;
+  width: 10px;
+  font-size: 0.5rem;
+  background-color: white;
+  color: black;
+  border-radius: 2.5px;
 `;
 export default Header;

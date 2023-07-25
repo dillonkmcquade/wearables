@@ -5,7 +5,7 @@ import QtyDropDown from "./QtyDropDown";
 
 export default function CartItem({ cart, setCart, item }) {
   const [qty, setQty] = useState(item.qty);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   const handleRemoveFromCart = async () => {
     try {
@@ -21,6 +21,7 @@ export default function CartItem({ cart, setCart, item }) {
       const response = await request.json();
       if (response.status === 200) {
         setCart(response.cartItems);
+        setCurrentUser({ ...currentUser, cartQty: currentUser.cartQty - 1 });
       }
     } catch (error) {
       console.error(error.message);
@@ -56,8 +57,7 @@ const Item = styled.div`
     rgba(0, 0, 0, 0.23) 0px 3px 6px;
   padding: 15px;
   border-radius: 4px;
-  @media (min-width: 500px) {
-  }
+  min-width: 50%;
 `;
 const Name = styled.p`
   font-size: 1.5rem;

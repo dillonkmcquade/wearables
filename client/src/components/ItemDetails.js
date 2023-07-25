@@ -14,7 +14,7 @@ const ItemDetails = () => {
   const [item, setItem] = useState([]);
   const navigate = useNavigate();
   const [qty, setQty] = useState("1");
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   useEffect(() => {
     const foundItem = items.find((item) => item._id === parseInt(id));
@@ -48,6 +48,7 @@ const ItemDetails = () => {
       .then((parse) => {
         if (parse.status === 200) {
           window.alert("Item added to the cart");
+          setCurrentUser({ ...currentUser, cartQty: currentUser.cartQty + 1 });
           navigate("/");
         }
       })
