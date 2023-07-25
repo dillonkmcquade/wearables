@@ -52,4 +52,5 @@ const Detail = styled.div`
   font-weight: 500;
   line-height: 1.2;
   max-height: 40%;
+  min-height: 35%;
 `;

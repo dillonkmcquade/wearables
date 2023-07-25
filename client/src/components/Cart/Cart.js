@@ -23,7 +23,7 @@ export default function Cart() {
     <Wrapper>
       <Items>
         {!cart || !cart.length ? (
-          <p>Cart is empty</p>
+          <Empty>Cart is empty</Empty>
         ) : (
           cart.map((item) => {
             return (
@@ -53,4 +53,12 @@ const Wrapper = styled.div`
     flex-direction: row;
   }
 `;
-const Items = styled.div``;
+const Items = styled.div`
+  min-width: 50%;
+`;
+
+const Empty = styled.p`
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+`;
