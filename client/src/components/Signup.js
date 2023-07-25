@@ -2,10 +2,12 @@ import React from "react";
 import { styled } from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "@mui/material";
 
 const Signup = () => {
   const navigate = useNavigate();
 
+  const [error, setError] = useState("");
   const [formData, setFormData] = useState({});
 
   const handleChange = (key, value) => {
@@ -17,141 +19,131 @@ const Signup = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = {
-      email: formData.email,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      password: formData.password,
-      phoneNumber: formData.phoneNumber,
-      address: formData.address,
-    };
-    const newData = JSON.stringify(data);
     fetch("/auth/signup", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: newData,
+      body: JSON.stringify(formData),
     })
       .then((res) => res.json())
       .then((parse) => {
         if (parse.status === 201) {
-          window.alert("Account Created Succesfully!");
           navigate("/");
+        } else {
+          setError(parse.message);
         }
       })
       .catch((error) => {
-        window.alert(error);
+        setError(error.message);
       });
   };
 
   return (
     <Wrapper>
-      <Box>
-        <LoginForm onSubmit={handleSubmit}>
-          <Title>Sign up</Title>
-          <Flex>
-            <FormGroup>
-              <Label>Email:</Label>
-              <Input
-                type="email"
-                id="email"
-                required
-                onChange={(event) =>
-                  handleChange(event.target.id, event.target.value)
-                }
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>First Name:</Label>
-              <Input
-                type="text"
-                id="firstName"
-                required
-                onChange={(event) =>
-                  handleChange(event.target.id, event.target.value)
-                }
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Last Name:</Label>
-              <Input
-                type="text"
-                id="lastName"
-                required
-                onChange={(event) =>
-                  handleChange(event.target.id, event.target.value)
-                }
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Phone Number:</Label>
-              <Input
-                type="text"
-                id="phoneNumber"
-                required
-                onChange={(event) =>
-                  handleChange(event.target.id, event.target.value)
-                }
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Address:</Label>
-              <Input
-                type="text"
-                id="address"
-                required
-                onChange={(event) =>
-                  handleChange(event.target.id, event.target.value)
-                }
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label>Password:</Label>
-              <Input
-                type="password"
-                id="password"
-                required
-                onChange={(event) =>
-                  handleChange(event.target.id, event.target.value)
-                }
-              />
-            </FormGroup>
-          </Flex>
-          <Button type="submit">Sign up!</Button>
-        </LoginForm>
-      </Box>
+      <LoginForm onSubmit={handleSubmit}>
+        <Title>Sign up</Title>
+        <Flex>
+          <FormGroup>
+            <label htmlFor="email">Email:</label>
+            <Input
+              type="email"
+              id="email"
+              required
+              onChange={(event) =>
+                handleChange(event.target.id, event.target.value)
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <label htmlFor="firstName">First Name:</label>
+            <Input
+              type="text"
+              id="firstName"
+              required
+              onChange={(event) =>
+                handleChange(event.target.id, event.target.value)
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Last Name:</label>
+            <Input
+              type="text"
+              id="lastName"
+              required
+              onChange={(event) =>
+                handleChange(event.target.id, event.target.value)
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Phone Number:</label>
+            <Input
+              type="text"
+              id="phoneNumber"
+              required
+              onChange={(event) =>
+                handleChange(event.target.id, event.target.value)
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Address:</label>
+            <Input
+              type="text"
+              id="address"
+              required
+              onChange={(event) =>
+                handleChange(event.target.id, event.target.value)
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <label>Password:</label>
+            <Input
+              type="password"
+              id="password"
+              required
+              onChange={(event) =>
+                handleChange(event.target.id, event.target.value)
+              }
+            />
+          </FormGroup>
+        </Flex>
+        <Button type="submit">Sign up!</Button>
+        {error && (
+          <Alert severity="error" sx={{ margin: "1rem 0" }}>
+            {error}
+          </Alert>
+        )}
+      </LoginForm>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  background-color: lightgrey;
-`;
-const Box = styled.div`
-  font-family: "Open Sans", sans-serif;
-  /* background: rgb(2,0,36);
-    background: linear-gradient(180deg, rgba(2,0,36,1) 0%, rgba(6,1,58,1) 0%, rgba(6,1,59,1) 16%, rgba(255,255,255,1) 100%); */
   display: flex;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
-  color: white;
+  align-items: center;
+  height: calc(100vh - 3em);
+  width: 100vw;
+  color: black;
 `;
 const LoginForm = styled.form`
+  background-color: white;
+  height: 500px;
+  width: 500px;
+  min-height: 300px;
+  min-width: 300px;
   display: flex;
   flex-direction: column;
-  background-color: #06013b;
-  border-radius: 40px;
-  box-shadow:
-    0 2px 4px 0 #808080,
-    0 4px 10px 0 #808080;
+  border: 1px solid black;
+  border-radius: 0.2em;
+  align-items: center;
   justify-content: center;
   padding: 3em 3em 2em 3em;
-  div {
-    margin-bottom: 1em;
-  }
 `;
 const Title = styled.h2`
   text-align: center;
@@ -164,21 +156,30 @@ const Flex = styled.div`
   flex-direction: column;
   align-items: flex-end;
 `;
-const Label = styled.label``;
 const Input = styled.input`
-  border-radius: 20px;
-  border: none;
+  border-radius: 0.2em;
+  border: 2px solid black;
   margin-left: 1em;
   height: 2em;
-  width: 20em;
+  width: 18em;
+  outline: none;
 `;
-const FormGroup = styled.div``;
+const FormGroup = styled.div`
+  margin-bottom: 1em;
+`;
 const Button = styled.button`
   margin-top: 1em;
   padding: 0.5em;
-  border-radius: 20px;
-  border: none;
+  border-radius: 0.4em;
+  border: 2px solid black;
   font-weight: bold;
   cursor: pointer;
+  width: 20em;
+  transition: all ease-in-out 0.3s;
+
+  &:hover {
+    background-color: black;
+    color: white;
+  }
 `;
 export default Signup;

@@ -47,7 +47,6 @@ export default function SubTotal({ cart }) {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-self: flex-end;
   padding: 15px;
   margin-left: 15px;
   margin-top: 25px;

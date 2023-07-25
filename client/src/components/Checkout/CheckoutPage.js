@@ -12,6 +12,7 @@ const CheckoutPage = () => {
   const [items, setItems] = useState([]);
   const { fetchData } = useContext(ItemContext);
   const { currentUser } = useContext(UserContext);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetch(`/cart/${currentUser.cartId}`)
@@ -38,8 +39,11 @@ const CheckoutPage = () => {
           navigate(`/confirmation/${parsed.orderId}`);
           fetchData();
         } else {
-          alert(parsed.message);
+          setError(parsed.message);
         }
+      })
+      .catch((err) => {
+        setError(err.message);
       });
   };
   return (
@@ -52,7 +56,11 @@ const CheckoutPage = () => {
           formData={formData}
           setItems={setItems}
         />
-        <PurchaseSummary items={items} handleSubmit={handleSubmit} />
+        <PurchaseSummary
+          items={items}
+          handleSubmit={handleSubmit}
+          error={error}
+        />
       </Container>
     </>
   );

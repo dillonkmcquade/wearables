@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import { Alert } from "@mui/material";
 
-const PurchaseSummary = ({ handleSubmit, items }) => {
+const PurchaseSummary = ({ handleSubmit, items, error }) => {
   const [total, setTotal] = useState(0);
   useEffect(() => {
     if (items) {
@@ -37,6 +38,11 @@ const PurchaseSummary = ({ handleSubmit, items }) => {
         </SubSection>
       </Total>
       <OrderButton onClick={handleSubmit}>Place your order</OrderButton>
+      {error && (
+        <Alert severity="error" sx={{ margin: "1rem 0" }}>
+          {error}
+        </Alert>
+      )}
     </Wrapper>
   );
 };
@@ -54,7 +60,7 @@ const Wrapper = styled.div`
   margin-left: 1.5rem;
   margin-top: 2.5rem;
   min-width: 25%;
-  max-height: 30rem;
+  max-height: 600px;
   border-radius: 0.5rem;
   @media (max-width: 1024px) {
     margin-top: 0;
