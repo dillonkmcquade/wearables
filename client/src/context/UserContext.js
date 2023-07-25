@@ -1,5 +1,5 @@
 // Provides user context across application for adding/deleting items and checkout
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext(null);
 
@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
     window.localStorage.setItem("user", JSON.stringify(currentUser));
   }, [currentUser]);
   return (
-    <UserContext.Provider value={{ setName, currentUser, setCurrentUser }}>
+    <UserContext.Provider value={{ currentUser, setCurrentUser }}>
       {children}
     </UserContext.Provider>
   );

@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { styled } from "styled-components";
+import { UserContext } from "../../context/UserContext";
 import QtyDropDown from "./QtyDropDown";
 
-export default function CartItem({ cart, setCart, item, currentUser }) {
+export default function CartItem({ cart, setCart, item }) {
   const [qty, setQty] = useState(item.qty);
+  const { currentUser } = useContext(UserContext);
 
   const handleRemoveFromCart = async () => {
     try {

@@ -8,7 +8,7 @@ export const useCart = () => {
   useEffect(() => {
     const getCart = async function () {
       try {
-        const request = await fetch(`/cart/${currentUser}`);
+        const request = await fetch(`/cart/${currentUser.cartId}`);
         if (request.status !== 200) {
           return;
         }

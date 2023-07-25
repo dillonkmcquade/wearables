@@ -7,7 +7,7 @@ const { collections } = require("../services/database.service");
 
 const checkout = async (request, response) => {
   const {
-    _id, //cartId
+    _id,
     email,
     creditCard,
     expiration,
@@ -31,6 +31,7 @@ const checkout = async (request, response) => {
     return response.status(400).json({
       status: 400,
       message: "Missing data",
+      data: request.body,
     });
   }
 

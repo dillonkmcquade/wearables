@@ -14,7 +14,7 @@ const CheckoutPage = () => {
   const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
-    fetch(`/cart/${currentUser}`)
+    fetch(`/cart/${currentUser.cartId}`)
       .then((response) => response.json())
       .then((parsed) => {
         setItems(parsed.data.cartItems);
@@ -22,7 +22,7 @@ const CheckoutPage = () => {
       });
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     fetch("/cart/checkout", {
       method: "POST",

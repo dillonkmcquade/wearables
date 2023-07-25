@@ -13,7 +13,7 @@ const ItemDetails = () => {
   const [companyName, setCompanyName] = useState("");
   const [item, setItem] = useState([]);
   const navigate = useNavigate();
-  const [qty, setQty] = useState(1);
+  const [qty, setQty] = useState("1");
   const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const ItemDetails = () => {
     if (matchedCompany) {
       setCompanyName(matchedCompany.name);
     }
-  }, []);
+  }, [companies, items]);
 
   const handleSubmit = (event) => {
     if (!currentUser) return;
@@ -36,7 +36,7 @@ const ItemDetails = () => {
       qty: qty,
     };
     const newData = JSON.stringify(data);
-    fetch(`/cart/add/${currentUser}`, {
+    fetch(`/cart/add/${currentUser.cartId}`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
@@ -72,12 +72,15 @@ const ItemDetails = () => {
               </Info>
               <DropDown>
                 <select
+                  disabled={!item.numInStock}
                   onChange={(event) => setQty(event.target.value)}
                   defaultValue={qty}
                 >
-                  {new Array(10).fill().map((_item, index) => (
-                    <option key={index}>{index}</option>
-                  ))}
+                  {Array(item.numInStock)
+                    .fill()
+                    .map((_item, index) => (
+                      <option key={index}>{index + 1}</option>
+                    ))}
                 </select>
               </DropDown>
               <Button disabled={!item.numInStock} onClick={handleSubmit}>

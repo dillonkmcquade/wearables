@@ -29,7 +29,6 @@ export default function Cart() {
             return (
               <CartItem
                 key={item._id}
-                currentUser={currentUser}
                 item={item}
                 setCart={setCart}
                 cart={cart}
@@ -47,7 +46,8 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-top: 5%;
+  margin: 5% auto;
+  width: 95vw;
 
   @media (min-width: 1200px) {
     flex-direction: row;
