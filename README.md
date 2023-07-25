@@ -16,6 +16,7 @@
 - User shopping carts are stored on backend
 - Homepage displays featured categories and random items
 - User authentication
+- Api documentation
 
 ## Contributors
 
