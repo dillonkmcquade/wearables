@@ -4,13 +4,6 @@ import { createContext, useState } from "react";
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {
-  const [name, setName] = useState(() => {
-    const userName = window.localStorage.getItem("name");
-    if (userName) {
-      return JSON.parse(userName);
-    }
-    return null;
-  });
   const [currentUser, setCurrentUser] = useState(() => {
     // This identifies the user by its cartId
     const user = window.localStorage.getItem("user");
@@ -19,10 +12,12 @@ export const UserProvider = ({ children }) => {
     }
     return null;
   });
+
+  useEffect(() => {
+    window.localStorage.setItem("user", JSON.stringify(currentUser));
+  }, [currentUser]);
   return (
-    <UserContext.Provider
-      value={{ name, setName, currentUser, setCurrentUser }}
-    >
+    <UserContext.Provider value={{ setName, currentUser, setCurrentUser }}>
       {children}
     </UserContext.Provider>
   );

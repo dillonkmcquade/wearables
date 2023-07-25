@@ -20,7 +20,6 @@ const CatBurger = () => {
     <Wrapper>
       <Hamburger onClick={() => setOpen(!open)} size={20} />
       <Menu className={`${open ? "active" : "inactive"}`}>
-        <h3>Categories</h3>
         <ul>
           <Item to="/categories/Lifestyle">LifeStyle</Item>
           <Item to="/categories/Fitness">Fitness</Item>

@@ -8,27 +8,27 @@ import { useContext } from "react";
 import { UserContext } from "../../context/UserContext";
 
 const Header = () => {
-  const { name, currentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
 
   return (
     <Wrapper>
-      <Title to="/">Wearables</Title>
-      <Search>
-        <CatBurger />
-        <form>
-          <Input placeholder="What do you need?" />
-          <Button type="submit">
-            <HiMagnifyingGlass size={33} />
-          </Button>
-        </form>
+      <Content>
+        <Title to="/">Wearables</Title>
+        <Search>
+          <CatBurger />
+          <form>
+            <Input placeholder="What do you need?" />
+            <SearchIcon size={25} />
+          </form>
+        </Search>
+        <Cart to={currentUser ? "/cart" : "/"}>
+          <AiOutlineShoppingCart size={25} />
+        </Cart>
         <SignIn to={currentUser ? "/" : "/signin"}>
-          <HiOutlineUser size={35} />
-          <span>{name ? name : "Sign in"}</span>
+          <HiOutlineUser size={25} />
+          <span>{currentUser ? currentUser.firstName : "Log in"}</span>
         </SignIn>
-      </Search>
-      <Cart to={currentUser ? "/cart" : "/"}>
-        <AiOutlineShoppingCart size={35} />
-      </Cart>
+      </Content>
     </Wrapper>
   );
 };
@@ -38,8 +38,10 @@ const Wrapper = styled.header`
   font-weight: bold;
   height: 3em;
   display: flex;
-  background-color: #06013b;
+  background-color: black;
   align-items: center;
+  justify-content: center;
+  width: 100vw;
 `;
 const Title = styled(NavLink)`
   color: white;
@@ -61,9 +63,7 @@ const Search = styled.div`
     }
   }
 `;
-const Button = styled.button`
-  border: none;
-  background-color: #06013b;
+const SearchIcon = styled(HiMagnifyingGlass)`
   color: white;
   cursor: pointer;
 `;
@@ -71,20 +71,22 @@ const Input = styled.input`
   width: 30em;
   height: 2em;
   border: none;
-  border-radius: 30px;
+  border-radius: 0.4em;
 `;
 const SignIn = styled(NavLink)`
   color: white;
   display: flex;
   align-items: center;
   text-decoration: none;
-  span {
-    margin-top: 0.3em;
-  }
 `;
 const Cart = styled(NavLink)`
   color: white;
-  margin-right: 3em;
+  margin-right: 1em;
   cursor: pointer;
+`;
+const Content = styled.div`
+  display: flex;
+  align-items: center;
+  width: 95%;
 `;
 export default Header;

@@ -19,7 +19,6 @@ const Featured = () => {
                 navigate(`/categories/${category}`);
               }}
             >
-              <Text>{category}</Text>
               <ImageCategory
                 src={`images/${category.toLowerCase()}.jpg`}
                 alt={`${category} image`}
@@ -50,7 +49,7 @@ const BoxContainer = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  max-width: 80vw;
+  width: 100%;
 `;
 
 const BoxOne = styled.div`
@@ -69,10 +68,9 @@ const BoxOne = styled.div`
 
 const TextImageContainer = styled.div`
   font-size: 3rem;
-  text-align: center;
   position: relative;
-  width: 12rem;
-  height: 12rem;
+  width: 250px;
+  height: 250px;
   cursor: pointer;
   margin: 0.5rem;
   transition: scale ease-in 0.5s;
@@ -81,21 +79,15 @@ const TextImageContainer = styled.div`
     scale: 1.1;
   }
 `;
-const Text = styled.div`
-  color: #06013b;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/* const Text = styled.div`
+  color: #000000;
+  text-align: left;
+  font-weight: bold;
   z-index: 1;
   font-size: 2rem;
-`;
+`; */
 const ImageCategory = styled.img`
   border-radius: 0.4rem;
   width: 100%;
   height: 100%;
-  opacity: 60%;
-  box-shadow:
-    0 0.1rem 0.2rem 0 #808080,
-    0 0.1rem 0.2rem #808080;
 `;

@@ -15,7 +15,11 @@ const ItemList = () => {
       const filtered = items.filter((item) => {
         return item.category === category;
       });
-      setRandomItems(getRandomItems(filtered));
+      if (!filtered || filtered.length < 10) {
+        setRandomItems(filtered);
+      } else {
+        setRandomItems(getRandomItems(filtered));
+      }
     }
   }, [category, items]);
   const getRandomItems = (filtered) => {

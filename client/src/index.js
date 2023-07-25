@@ -6,14 +6,12 @@ import { ItemProvider } from "./context/ItemContext";
 import { CompanyProvider } from "./context/CompanyContext";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <CompanyProvider>
-      <ItemProvider>
-        <UserProvider>
-          <App />
-        </UserProvider>
-      </ItemProvider>
-    </CompanyProvider>
-  </React.StrictMode>,
+  <CompanyProvider>
+    <ItemProvider>
+      <UserProvider>
+        <App />
+      </UserProvider>
+    </ItemProvider>
+  </CompanyProvider>,
   document.getElementById("root"),
 );
