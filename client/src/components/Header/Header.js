@@ -85,6 +85,9 @@ const SignIn = styled.div`
   display: flex;
   align-items: center;
   text-decoration: none;
+  &:hover {
+    color: gray;
+  }
 `;
 const Cart = styled(NavLink)`
   color: white;

@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ItemContext } from "../context/ItemContext";
 import { CompanyContext } from "../context/CompanyContext";
 import { UserContext } from "../context/UserContext";
+import { Alert } from "@mui/material";
 
 const ItemDetails = () => {
   const { items } = useContext(ItemContext);
@@ -15,6 +16,8 @@ const ItemDetails = () => {
   const navigate = useNavigate();
   const [qty, setQty] = useState("1");
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const foundItem = items.find((item) => item._id === parseInt(id));
@@ -28,7 +31,10 @@ const ItemDetails = () => {
   }, [companies, items]);
 
   const handleSubmit = (event) => {
-    if (!currentUser) return;
+    if (!currentUser) {
+      setError("Must be logged in");
+      return;
+    }
     event.preventDefault();
 
     const data = {
@@ -47,9 +53,11 @@ const ItemDetails = () => {
       .then((res) => res.json())
       .then((parse) => {
         if (parse.status === 200) {
-          window.alert("Item added to the cart");
+          setSuccess(true);
           setCurrentUser({ ...currentUser, cartQty: currentUser.cartQty + 1 });
-          navigate("/");
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
         }
       })
       .catch((error) => {
@@ -89,6 +97,34 @@ const ItemDetails = () => {
               </Button>
             </Flex>
           </ItemWrapper>
+        )}
+        {success && (
+          <Alert
+            severity="success"
+            variant="outlined"
+            sx={{
+              width: "500px",
+              margin: "1rem 0",
+              position: "relative",
+              top: "100px",
+            }}
+          >
+            Item added to cart
+          </Alert>
+        )}
+        {error && (
+          <Alert
+            severity="warning"
+            variant="outlined"
+            sx={{
+              width: "500px",
+              margin: "1rem 0",
+              position: "relative",
+              top: "100px",
+            }}
+          >
+            {error}
+          </Alert>
         )}
       </ItemContainer>
     </Wrapper>

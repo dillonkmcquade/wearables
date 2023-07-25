@@ -3,14 +3,17 @@ import { styled } from "styled-components";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { Alert } from "@mui/material";
 
 const Login = () => {
   const navigate = useNavigate();
   const { setCurrentUser } = useContext(UserContext);
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (key, value) => {
+    setError("");
     setFormData({
       ...formData,
       [key]: value,
@@ -31,6 +34,11 @@ const Login = () => {
         body: JSON.stringify(formData),
       });
       const data = await request.json();
+      if (data.status !== 200) {
+        setError(data.data);
+        setLoading(false);
+        return;
+      }
       const getCart = await fetch(`/cart/${data.data.cartId}`);
       const response = await getCart.json();
       if (response.status === 200) {
@@ -39,10 +47,12 @@ const Login = () => {
           cartQty: response.data.cartItems.length,
         });
         setLoading(false);
+        setError("");
         navigate("/");
       }
     } catch (error) {
       setLoading(false);
+      setError("");
       console.error(error.message);
     }
   };
@@ -81,6 +91,11 @@ const Login = () => {
         <Button disabled={loading} type="submit">
           {loading ? "Please wait..." : "Log In"}
         </Button>
+        {error && (
+          <Alert severity="error" sx={{ margin: "1rem 0" }}>
+            {error}
+          </Alert>
+        )}
       </LoginForm>
     </Wrapper>
   );
