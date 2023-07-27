@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { useEffect, useState, useContext } from "react";
-import { useNavigate, useParams, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ItemContext } from "../context/ItemContext";
 import { CompanyContext } from "../context/CompanyContext";
 import { UserContext } from "../context/UserContext";
