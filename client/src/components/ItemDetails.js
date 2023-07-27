@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "styled-components";
 import { useEffect, useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import { ItemContext } from "../context/ItemContext";
 import { CompanyContext } from "../context/CompanyContext";
 import { UserContext } from "../context/UserContext";
@@ -14,6 +14,7 @@ const ItemDetails = () => {
   const [companyName, setCompanyName] = useState("");
   const [item, setItem] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const [qty, setQty] = useState("1");
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [success, setSuccess] = useState(false);
@@ -28,7 +29,7 @@ const ItemDetails = () => {
     if (matchedCompany) {
       setCompanyName(matchedCompany.name);
     }
-  }, [companies, items]);
+  }, [companies, items, location]);
 
   const handleSubmit = (event) => {
     if (!currentUser) {
@@ -72,7 +73,7 @@ const ItemDetails = () => {
           <ItemWrapper>
             <ItemName>{item.name}</ItemName>
             <Flex>
-              <Pictures key={item.id} src={item.imageSrc} alt="Item" />
+              <Pictures src={item.imageSrc} alt="Item" />
               <Info>
                 <Price>{item.price}</Price>
                 <Category>{item.category}</Category>

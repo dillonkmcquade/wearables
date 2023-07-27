@@ -1,14 +1,24 @@
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { styled } from "styled-components";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { HiMagnifyingGlass, HiOutlineUser } from "react-icons/hi2";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import CatBurger from "./CatBurger";
 import { UserContext } from "../../context/UserContext";
+import { ItemContext } from "../../context/ItemContext";
+import Result from "./Result";
 
 const Header = () => {
+  const { items } = useContext(ItemContext);
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  const [results, setResults] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    setResults([]);
+  }, [location]);
+
   const logout = function () {
     setCurrentUser(null);
     navigate("/");
@@ -21,13 +31,43 @@ const Header = () => {
     }
   };
 
+  const handleSearch = function (event) {
+    if (event.target.value.length > 2) {
+      const filteredItems = items.filter((item) =>
+        item.name.toLowerCase().includes(event.target.value.toLowerCase()),
+      );
+      filteredItems.sort(
+        (a, b) =>
+          a.name.indexOf(event.target.value) -
+          b.name.indexOf(event.target.value),
+      );
+      setResults(filteredItems.slice(0, 10));
+    } else {
+      setResults([]);
+    }
+  };
+
   return (
     <Wrapper>
       <Content>
         <Title to="/">Wearables</Title>
         <Search>
           <CatBurger />
-          <Input type="text" placeholder="What do you need?" />
+          <Input
+            type="text"
+            onChange={handleSearch}
+            placeholder="What do you need?"
+          />
+          <Results $display={!results.length && "none"}>
+            {results.length !== 0 &&
+              results.map((result) => (
+                <Result
+                  key={result._id}
+                  data={result}
+                  handler={() => navigate(`/items/${result._id}`)}
+                />
+              ))}
+          </Results>
           <SearchIcon size={25} />
         </Search>
         <Cart to={currentUser ? "/cart" : "/"}>
@@ -44,6 +84,16 @@ const Header = () => {
     </Wrapper>
   );
 };
+
+const Results = styled.div`
+  display: ${(props) => props.$display || "block"};
+  position: absolute;
+  width: 25em;
+  background-color: white;
+  top: 45px;
+  border-radius: 0 0 0.4em 0.4em;
+  border: 1px solid gray;
+`;
 
 const Wrapper = styled.header`
   font-family: "Open Sans", sans-serif;
