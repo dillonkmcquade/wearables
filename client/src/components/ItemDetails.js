@@ -14,7 +14,6 @@ const ItemDetails = () => {
   const [companyName, setCompanyName] = useState("");
   const [item, setItem] = useState([]);
   const navigate = useNavigate();
-  const location = useLocation();
   const [qty, setQty] = useState("1");
   const { currentUser, setCurrentUser } = useContext(UserContext);
   const [success, setSuccess] = useState(false);
@@ -29,7 +28,7 @@ const ItemDetails = () => {
     if (matchedCompany) {
       setCompanyName(matchedCompany.name);
     }
-  }, [companies, items, location]);
+  }, [companies, items, id]);
 
   const handleSubmit = (event) => {
     if (!currentUser) {
