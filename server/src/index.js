@@ -20,7 +20,10 @@ connectToDatabase()
           "Access-Control-Allow-Methods",
           "OPTIONS, GET, PUT, POST, DELETE",
         );
-        res.header("Access-Control-Allow-Headers", "Content-Type, Accept");
+        res.header(
+          "Access-Control-Allow-Headers",
+          "Content-Type, Accept, Authorization",
+        );
         next();
       })
       .use(compression())

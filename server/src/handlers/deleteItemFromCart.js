@@ -3,7 +3,7 @@
 const { collections } = require("../services/database.service");
 
 const deleteItemFromCart = async (request, response) => {
-  const { cartId } = request.params;
+  const { cartId } = request.auth;
   const { itemId } = request.body;
 
   console.log("Cart ID:", cartId);

@@ -42,11 +42,13 @@ const ItemDetails = () => {
       qty: qty,
     };
     const newData = JSON.stringify(data);
-    fetch(`/cart/add/${currentUser.cartId}`, {
+    const accessToken = window.localStorage.getItem("accessToken");
+    fetch(`/cart/add`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: newData,
     })

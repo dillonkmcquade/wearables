@@ -5,19 +5,13 @@ const { collections } = require("../services/database.service");
 //ENDPOINT CREATED FOR THE CART PAGE
 
 const getCart = async (request, response) => {
+  const user = request.auth;
+  console.log(user);
   // when logged in, the cartId will be saved on local storage passed as URL param
-  const { _id } = request.params;
-
-  if (!_id) {
-    return response
-      .status(400)
-      .json({ status: 400, message: "No id provided" });
-  }
-
   try {
     const { carts } = collections;
 
-    const resultGetOne = await carts.findOne({ _id: _id });
+    const resultGetOne = await carts.findOne({ _id: user.cartId });
 
     resultGetOne
       ? response.status(200).json({ status: 200, data: resultGetOne })

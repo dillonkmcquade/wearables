@@ -11,31 +11,38 @@ const CheckoutPage = () => {
   const [formData, setFormData] = useState({});
   const [items, setItems] = useState([]);
   const { fetchData } = useContext(ItemContext);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`/cart/${currentUser.cartId}`)
+    const accessToken = window.localStorage.getItem("accessToken");
+    fetch(`/cart`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then((response) => response.json())
       .then((parsed) => {
         setItems(parsed.data.cartItems);
-        setFormData({ _id: parsed.data._id });
       });
   }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const accessToken = window.localStorage.getItem("accessToken");
     fetch("/cart/checkout", {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
       .then((parsed) => {
         if (parsed.status === 201) {
+          setCurrentUser({ ...currentUser, cartQty: 0 });
           navigate(`/confirmation/${parsed.orderId}`);
           fetchData();
         } else {

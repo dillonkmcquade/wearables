@@ -8,7 +8,7 @@ const updateItemFromCart = async (request, response) => {
   const { _id, updateQty } = request.body;
 
   //get the cart Id from the local storage on the FE
-  const { cartId } = request.params;
+  const { cartId } = request.auth;
 
   if (!cartId) {
     return response

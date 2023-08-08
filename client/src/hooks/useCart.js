@@ -8,7 +8,12 @@ export const useCart = () => {
   useEffect(() => {
     const getCart = async function () {
       try {
-        const request = await fetch(`/cart/${currentUser.cartId}`);
+        const accessToken = window.localStorage.getItem("accessToken");
+        const request = await fetch(`/cart`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         if (request.status !== 200) {
           return;
         }

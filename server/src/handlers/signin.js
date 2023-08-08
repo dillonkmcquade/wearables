@@ -6,6 +6,7 @@
 
 const { collections } = require("../services/database.service");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const signin = async (request, response) => {
   const { email } = request.body;
@@ -49,9 +50,16 @@ const signin = async (request, response) => {
 
     // Stretch goal: login with password
     const verified = await bcrypt.compare(password, resultGetOne.password);
-    verified
-      ? response.status(200).json({ status: 200, data: modifiedUserObject })
-      : response.status(400).json({ status: 400, data: "Incorrect password" });
+    if (!verified) {
+      return response
+        .status(400)
+        .json({ status: 400, data: "Incorrect password" });
+    }
+    const token = jwt.sign(modifiedUserObject, process.env.JWT_SECRET, {
+      expiresIn: "60 minutes",
+    });
+
+    return response.status(200).json({ status: 200, data: token });
   } catch (err) {
     console.error(err.message);
     response.status(500).json({ status: 500, data: err.message });

@@ -10,10 +10,12 @@ export default function QtyDropDown({
   inventory,
 }) {
   const updateCartItem = async (event) => {
-    const request = await fetch(`/cart/update/${currentUser.cartId}`, {
+    const accessToken = window.localStorage.getItem("accessToken");
+    const request = await fetch(`/cart/update`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         _id: id,

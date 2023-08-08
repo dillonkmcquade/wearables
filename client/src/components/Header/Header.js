@@ -73,7 +73,9 @@ const Header = () => {
         <Cart to={currentUser ? "/cart" : "/"}>
           <ShoppingCart>
             <AiOutlineShoppingCart size={25} />
-            {currentUser && <Badge>{currentUser.cartQty}</Badge>}
+            {currentUser && currentUser.cartQty > 0 && (
+              <Badge>{currentUser.cartQty}</Badge>
+            )}
           </ShoppingCart>
         </Cart>
         <SignIn onClick={handleSignIn}>

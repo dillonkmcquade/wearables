@@ -39,11 +39,15 @@ const Login = () => {
         setLoading(false);
         return;
       }
-      const getCart = await fetch(`/cart/${data.data.cartId}`);
+      window.localStorage.setItem("accessToken", data.data);
+      const getCart = await fetch(`/cart`, {
+        headers: {
+          Authorization: `Bearer ${data.data}`,
+        },
+      });
       const response = await getCart.json();
       if (response.status === 200) {
         setCurrentUser({
-          ...data.data,
           cartQty: response.data.cartItems.length,
         });
         setLoading(false);

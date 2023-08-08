@@ -10,13 +10,8 @@ const addItemToCart = async (request, response) => {
   const { _id, qty } = request.body;
 
   //get the cart Id from the local storage on the FE
-  const { cartId } = request.params;
+  const user = request.auth;
 
-  if (!cartId) {
-    return response
-      .status(400)
-      .json({ status: 400, message: "Missing cart id" });
-  }
   if (!_id) {
     return response
       .status(400)
@@ -31,7 +26,7 @@ const addItemToCart = async (request, response) => {
   try {
     const { carts, items, companies } = collections;
     //getting the array of items from the user`s cart
-    const cartData = await carts.findOne({ _id: cartId });
+    const cartData = await carts.findOne({ _id: user.cartId });
     if (!cartData) {
       return response.status(404).json({ status: 404, message: "Not Found" });
     }
@@ -63,7 +58,7 @@ const addItemToCart = async (request, response) => {
 
       //add it to the user`s cart pushing the new object to cartItems array
       const resultAddNewItem = await carts.updateOne(
-        { _id: cartId },
+        { _id: user.cartId },
         { $push: { cartItems: newCartItem } },
       );
       //testing block

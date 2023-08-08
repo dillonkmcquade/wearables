@@ -6,20 +6,12 @@
 const { collections } = require("../services/database.service");
 
 const checkout = async (request, response) => {
-  const {
-    _id,
-    email,
-    creditCard,
-    expiration,
-    address,
-    city,
-    country,
-    postalCode,
-  } = request.body;
+  const { cartId } = request.auth;
+  const { email, creditCard, expiration, address, city, country, postalCode } =
+    request.body;
 
   //validate information from client
   if (
-    !_id ||
     !creditCard ||
     !expiration ||
     !address ||
@@ -40,7 +32,7 @@ const checkout = async (request, response) => {
   try {
     const { carts, items, orders, users } = collections;
     //get cart from cart Id
-    const userCart = await carts.findOne({ _id });
+    const userCart = await carts.findOne({ _id: cartId });
 
     if (!userCart) {
       return response
@@ -88,7 +80,7 @@ const checkout = async (request, response) => {
 
     //Create new order in orders collection
     const newOrder = {
-      cartId: _id,
+      cartId,
       address,
       city,
       country,
@@ -105,7 +97,7 @@ const checkout = async (request, response) => {
 
     // Add order Id to users orders array
     const addOrderToUser = await users.updateOne(
-      { cartId: _id },
+      { cartId },
       { $push: { orders: insertOrder.insertedId } },
     );
 
@@ -117,7 +109,7 @@ const checkout = async (request, response) => {
     }
 
     const clearCart = await carts.updateOne(
-      { _id },
+      { _id: cartId },
       { $set: { cartItems: [] } },
     );
 
