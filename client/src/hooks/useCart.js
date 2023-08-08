@@ -24,9 +24,8 @@ export const useCart = () => {
         console.error(err.message);
       }
     };
-    if (currentUser) {
-      getCart();
-    }
+    if (!currentUser) return;
+    getCart();
   }, []);
   return { setCart, cart };
 };

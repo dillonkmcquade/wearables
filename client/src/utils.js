@@ -13,11 +13,10 @@ export async function Fetch(url, opts) {
     const data = await newReq.json();
     window.localStorage.setItem("accessToken", data.accessToken);
     window.localStorage.setItem("refreshToken", data.refreshToken);
-    const retry = await fetch(url, {
+    return fetch(url, {
       ...opts,
       headers: { ...opts.headers, Authorization: `Bearer ${data.accessToken}` },
     });
-    return retry;
   }
   return req;
 }
