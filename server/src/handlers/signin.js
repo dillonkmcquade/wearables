@@ -4,7 +4,7 @@
 
 "use strict";
 
-const { collections } = require("../services/database.service");
+const { collections, redisClient } = require("../services/database.service");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -55,11 +55,19 @@ const signin = async (request, response) => {
         .status(400)
         .json({ status: 400, data: "Incorrect password" });
     }
-    const token = jwt.sign(modifiedUserObject, process.env.JWT_SECRET, {
-      expiresIn: "60 minutes",
+    const accessToken = jwt.sign(modifiedUserObject, process.env.JWT_SECRET, {
+      expiresIn: "15 minutes",
     });
 
-    return response.status(200).json({ status: 200, data: token });
+    const refreshToken = jwt.sign(modifiedUserObject, process.env.JWT_REFRESH, {
+      expiresIn: "30 days",
+    });
+
+    await redisClient.set(refreshToken, "");
+
+    return response
+      .status(200)
+      .json({ status: 200, accessToken, refreshToken });
   } catch (err) {
     console.error(err.message);
     response.status(500).json({ status: 500, data: err.message });

@@ -30,6 +30,8 @@ const Signup = () => {
       .then((res) => res.json())
       .then((parse) => {
         if (parse.status === 201) {
+          window.localStorage.setItem("accessToken", parse.accessToken);
+          window.localStorage.setItem("refreshToken", parse.refreshToken);
           navigate("/");
         } else {
           setError(parse.message);

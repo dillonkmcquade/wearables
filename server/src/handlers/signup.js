@@ -1,5 +1,4 @@
 "use strict";
-//this is the latest version
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
 const { collections } = require("../services/database.service");
@@ -89,6 +88,16 @@ const signup = async (request, response) => {
 
     const cartData = { _id: cartId, cartItems: [] };
     const resultAddCart = await carts.insertOne(cartData);
+
+    const accessToken = jwt.sign(modifiedUserObject, process.env.JWT_SECRET, {
+      expiresIn: "15 minutes",
+    });
+
+    const refreshToken = jwt.sign(modifiedUserObject, process.env.JWT_REFRESH, {
+      expiresIn: "30 days",
+    });
+
+    await redisClient.set(refreshToken, "");
     !resultAddCart &&
       response
         .status(400)
@@ -96,7 +105,12 @@ const signup = async (request, response) => {
 
     response
       .status(201)
-      .json({ status: 201, message: "Account successfully created" });
+      .json({
+        status: 201,
+        message: "Account successfully created",
+        refreshToken,
+        accessToken,
+      });
   } catch (err) {
     console.log(err.message);
     response.status(500).json({ status: 500, message: "Server error" });

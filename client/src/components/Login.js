@@ -33,30 +33,42 @@ const Login = () => {
         },
         body: JSON.stringify(formData),
       });
+
       const data = await request.json();
+
       if (data.status !== 200) {
         setError(data.data);
         setLoading(false);
         return;
       }
-      window.localStorage.setItem("accessToken", data.data);
+
+      window.localStorage.setItem("accessToken", data.accessToken);
+      window.localStorage.setItem("refreshToken", data.refreshToken);
+
       const getCart = await fetch(`/cart`, {
         headers: {
-          Authorization: `Bearer ${data.data}`,
+          Authorization: `Bearer ${data.accessToken}`,
         },
       });
+
       const response = await getCart.json();
+
       if (response.status === 200) {
         setCurrentUser({
           cartQty: response.data.cartItems.length,
         });
+
         setLoading(false);
+
         setError("");
+
         navigate("/");
       }
     } catch (error) {
       setLoading(false);
+
       setError("");
+
       console.error(error.message);
     }
   };

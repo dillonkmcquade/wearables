@@ -1,7 +1,9 @@
 const { MongoClient } = require("mongodb");
+const { createClient } = require("redis");
 require("dotenv").config();
 
 const collections = {};
+const redisClient = createClient();
 
 async function connectToDatabase() {
   //Mongo client url cannot be undefined, check before using
@@ -11,8 +13,13 @@ async function connectToDatabase() {
     throw new Error("DB_CONN_STRING does not exist");
   }
 
-  const client = new MongoClient(DB_STRING);
+  await redisClient.connect();
+  const pong = await redisClient.ping();
+  if (pong === "PONG") {
+    console.log("Successfully connected to redis");
+  }
 
+  const client = new MongoClient(DB_STRING);
   await client.connect();
 
   const db = client.db(process.env.DB_NAME);
@@ -32,4 +39,4 @@ async function connectToDatabase() {
   collections.auth = authCollection;
   console.log(`Successfully connected to database: ${db.databaseName}`);
 }
-module.exports = { collections, connectToDatabase };
+module.exports = { collections, connectToDatabase, redisClient };

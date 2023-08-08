@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import { styled } from "styled-components";
 import { UserContext } from "../../context/UserContext";
 import QtyDropDown from "./QtyDropDown";
+import { Fetch } from "../../utils";
 
 export default function CartItem({ cart, setCart, item }) {
   const [qty, setQty] = useState(item.qty);
@@ -10,7 +11,7 @@ export default function CartItem({ cart, setCart, item }) {
   const handleRemoveFromCart = async () => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const request = await fetch(`/cart/delete`, {
+      const request = await Fetch(`/cart/delete`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { Fetch } from "../utils";
 
 export const useCart = () => {
   const [cart, setCart] = useState();
@@ -9,7 +10,7 @@ export const useCart = () => {
     const getCart = async function () {
       try {
         const accessToken = window.localStorage.getItem("accessToken");
-        const request = await fetch(`/cart`, {
+        const request = await Fetch(`/cart`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
