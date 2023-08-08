@@ -1,17 +1,17 @@
 //Dropdown menu for updating quantity on cart page
 import { styled } from "styled-components";
+import { Fetch } from "../../utils";
 export default function QtyDropDown({
   cart,
   setCart,
   setQty,
   qty,
   id,
-  currentUser,
   inventory,
 }) {
   const updateCartItem = async (event) => {
     const accessToken = window.localStorage.getItem("accessToken");
-    const request = await fetch(`/cart/update`, {
+    const request = await Fetch(`/cart/update`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

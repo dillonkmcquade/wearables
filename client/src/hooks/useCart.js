@@ -26,6 +26,6 @@ export const useCart = () => {
     };
     if (!currentUser) return;
     getCart();
-  }, []);
+  }, [currentUser]);
   return { setCart, cart };
 };

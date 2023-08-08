@@ -5,6 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { ItemContext } from "../../context/ItemContext";
+import { Fetch } from "../../utils";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const CheckoutPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const accessToken = window.localStorage.getItem("accessToken");
-    fetch("/cart/checkout", {
+    Fetch("/cart/checkout", {
       method: "POST",
       headers: {
         Accept: "application/json",

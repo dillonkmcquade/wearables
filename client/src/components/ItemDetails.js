@@ -6,6 +6,7 @@ import { ItemContext } from "../context/ItemContext";
 import { CompanyContext } from "../context/CompanyContext";
 import { UserContext } from "../context/UserContext";
 import { Alert } from "@mui/material";
+import { Fetch } from "../utils";
 
 const ItemDetails = () => {
   const { items } = useContext(ItemContext);
@@ -43,7 +44,7 @@ const ItemDetails = () => {
     };
     const newData = JSON.stringify(data);
     const accessToken = window.localStorage.getItem("accessToken");
-    fetch(`/cart/add`, {
+    Fetch(`/cart/add`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",
