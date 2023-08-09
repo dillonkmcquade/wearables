@@ -1,9 +1,11 @@
 const { MongoClient } = require("mongodb");
 const { createClient } = require("redis");
+const { batchImportItems } = require("../batchImportItems");
+const { batchImportCompanies } = require("../batchImportCompanies");
 require("dotenv").config();
 
 const collections = {};
-const redisClient = createClient();
+const redisClient = createClient({ url: "redis://redis:6379" });
 
 async function connectToDatabase() {
   //Mongo client url cannot be undefined, check before using
@@ -30,6 +32,9 @@ async function connectToDatabase() {
   const cartCollection = db.collection("carts");
   const companyCollection = db.collection("companies");
   const authCollection = db.collection("auth");
+
+  await batchImportItems();
+  await batchImportCompanies();
 
   collections.users = userCollection;
   collections.orders = orderCollection;

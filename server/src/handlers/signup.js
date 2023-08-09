@@ -1,7 +1,8 @@
 "use strict";
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
-const { collections } = require("../services/database.service");
+const { collections, redisClient } = require("../services/database.service");
+const jwt = require("jsonwebtoken");
 
 const signup = async (request, response) => {
   const { email, password, firstName, lastName, phoneNumber, address } =
@@ -71,11 +72,11 @@ const signup = async (request, response) => {
     const userData = {
       _id: email.toLowerCase(),
       email: email.toLowerCase(),
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      address: address,
-      cartId: cartId,
+      firstName,
+      lastName,
+      phoneNumber,
+      address,
+      cartId,
       orders: [],
     };
 
@@ -89,11 +90,11 @@ const signup = async (request, response) => {
     const cartData = { _id: cartId, cartItems: [] };
     const resultAddCart = await carts.insertOne(cartData);
 
-    const accessToken = jwt.sign(modifiedUserObject, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ cartId, email }, process.env.JWT_SECRET, {
       expiresIn: "15 minutes",
     });
 
-    const refreshToken = jwt.sign(modifiedUserObject, process.env.JWT_REFRESH, {
+    const refreshToken = jwt.sign({ cartId, email }, process.env.JWT_REFRESH, {
       expiresIn: "30 days",
     });
 
@@ -103,14 +104,12 @@ const signup = async (request, response) => {
         .status(400)
         .json({ status: 400, message: "Bad request", data: cartData });
 
-    response
-      .status(201)
-      .json({
-        status: 201,
-        message: "Account successfully created",
-        refreshToken,
-        accessToken,
-      });
+    response.status(201).json({
+      status: 201,
+      message: "Account successfully created",
+      refreshToken,
+      accessToken,
+    });
   } catch (err) {
     console.log(err.message);
     response.status(500).json({ status: 500, message: "Server error" });

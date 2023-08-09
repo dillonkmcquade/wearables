@@ -9,7 +9,7 @@ const cartRouter = require("./Routes/cart");
 const itemRouter = require("./Routes/items");
 const companyRouter = require("./Routes/companies");
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3001;
 
 connectToDatabase()
   .then(() => {

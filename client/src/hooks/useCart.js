@@ -10,11 +10,14 @@ export const useCart = () => {
     const getCart = async function () {
       try {
         const accessToken = window.localStorage.getItem("accessToken");
-        const request = await Fetch(`/cart`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+        const request = await Fetch(
+          `${process.env.REACT_APP_SERVER_URL}/cart`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           },
-        });
+        );
         if (request.status !== 200) {
           return;
         }

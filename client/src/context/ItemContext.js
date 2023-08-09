@@ -17,7 +17,9 @@ export const ItemProvider = ({ children }) => {
   });
   const fetchData = async function () {
     try {
-      const request = await fetch("/items?start=0&limit=348");
+      const request = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/items?start=0&limit=348`,
+      );
       const response = await request.json();
       if (response.status === 200) {
         window.localStorage.setItem("items", JSON.stringify(response.data));

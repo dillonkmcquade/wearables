@@ -25,14 +25,17 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const request = await fetch("/auth/signin", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+      const request = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/auth/signin`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
 
       const data = await request.json();
 
@@ -45,7 +48,7 @@ const Login = () => {
       window.localStorage.setItem("accessToken", data.accessToken);
       window.localStorage.setItem("refreshToken", data.refreshToken);
 
-      const getCart = await fetch(`/cart`, {
+      const getCart = await fetch(`${process.env.REACT_APP_SERVER_URL}/cart`, {
         headers: {
           Authorization: `Bearer ${data.accessToken}`,
         },

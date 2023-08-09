@@ -31,7 +31,7 @@ const CheckoutPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const accessToken = window.localStorage.getItem("accessToken");
-    Fetch("/cart/checkout", {
+    Fetch(`${process.env.REACT_APP_SERVER_URL}/cart/checkout`, {
       method: "POST",
       headers: {
         Accept: "application/json",

@@ -1,20 +1,15 @@
 const { MongoClient } = require("mongodb");
-const companies = require("./data/companies.json");
+const companies = require("../data/companies.json");
 
 require("dotenv").config();
 const { MONGO_URI } = process.env;
 
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-};
-
-async function batchImport() {
+async function batchImportCompanies() {
   const dbName = "e-commerce"; // Specify the database name
   const collectionName = "companies"; // Specify the collection name
 
   try {
-    const client = new MongoClient(MONGO_URI, options);
+    const client = new MongoClient(MONGO_URI);
     await client.connect();
 
     const db = client.db(dbName);
@@ -30,4 +25,4 @@ async function batchImport() {
   }
 }
 
-batchImport();
+module.exports = { batchImportCompanies };

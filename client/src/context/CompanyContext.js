@@ -17,7 +17,9 @@ export const CompanyProvider = ({ children }) => {
     if (!companies) {
       const fetchData = async function () {
         try {
-          const request = await fetch("/companies?start=0&limit=74");
+          const request = await fetch(
+            `${process.env.REACT_APP_SERVER_URL}/companies?start=0&limit=74`,
+          );
           const { data } = await request.json();
           window.localStorage.setItem("companies", JSON.stringify(data));
           setCompanies(data);

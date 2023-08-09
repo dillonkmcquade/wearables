@@ -11,16 +11,19 @@ export default function CartItem({ cart, setCart, item }) {
   const handleRemoveFromCart = async () => {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
-      const request = await Fetch(`/cart/delete`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
+      const request = await Fetch(
+        `${process.env.REACT_APP_SERVER_URL}/cart/delete`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            itemId: item._id,
+          }),
         },
-        body: JSON.stringify({
-          itemId: item._id,
-        }),
-      });
+      );
       const response = await request.json();
       if (response.status === 200) {
         setCart(response.cartItems);
