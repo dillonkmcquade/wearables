@@ -30,11 +30,17 @@ connectToDatabase()
       .use(morgan("dev"))
       .use(express.json())
       .use(express.urlencoded({ extended: false }))
-      .use("/", express.static(__dirname + "/"))
       .use("/auth", authRouter)
       .use("/cart", cartRouter)
       .use("/items", itemRouter)
       .use("/companies", companyRouter)
+      .get("/", (req, res) => {
+        return res.sendStatus(200);
+      })
+      .get("*", (req, res) => {
+        return res.sendStatus(404);
+      })
+
       .listen(PORT, () => console.log(`Listening on port ${PORT}`));
   })
   .catch((error) => console.error(error.message));

@@ -18,6 +18,14 @@
 - Session based user authentication & authorization with JWT & Redis
 - Api documentation
 
+## Run it locally
+
+```bash
+git clone https://github.com/dillonkmcquade/wearables.git
+cd wearables
+docker compose up
+```
+
 ## Contributors
 
 - [ Dillon McQuade ](https://github.com/dillonkmcquade)
