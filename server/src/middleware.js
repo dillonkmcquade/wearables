@@ -3,7 +3,6 @@ async function auth(req, res, next) {
   const authorization = req.headers["authorization"];
   const accessToken = authorization?.split(" ")[1];
   if (!authorization || !accessToken) {
-    console.log(req.headers);
     return res.sendStatus(401);
   }
 

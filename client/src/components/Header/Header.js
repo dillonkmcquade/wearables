@@ -19,9 +19,28 @@ const Header = () => {
     setResults([]);
   }, [location]);
 
-  const logout = function () {
-    setCurrentUser(null);
-    navigate("/");
+  const logout = async function () {
+    const refreshToken = window.localStorage.getItem("refreshToken");
+    const accessToken = window.localStorage.getItem("accessToken");
+    try {
+      const res = await fetch(
+        `${process.env.REACT_APP_SERVER_URL}/auth/logout`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ token: refreshToken }),
+        },
+      );
+      if (res.status === 204) {
+        setCurrentUser(null);
+        navigate("/");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
   const handleSignIn = function () {
     if (currentUser) {

@@ -7,7 +7,6 @@ const { collections } = require("../services/database.service");
 const getCart = async (request, response) => {
   const user = request.auth;
   // when logged in, the cartId will be saved on local storage passed as URL param
-  console.log(user);
   try {
     const { carts } = collections;
 

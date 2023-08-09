@@ -6,6 +6,6 @@ async function logout(req, res) {
     res.sendStatus(401);
   }
   await redisClient.del(auth);
-  res.status(204);
+  return res.sendStatus(204);
 }
 module.exports = { logout };

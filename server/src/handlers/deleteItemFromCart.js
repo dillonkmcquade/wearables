@@ -6,9 +6,6 @@ const deleteItemFromCart = async (request, response) => {
   const { cartId } = request.auth;
   const { itemId } = request.body;
 
-  console.log("Cart ID:", cartId);
-  console.log("Item ID:", itemId);
-
   try {
     const { carts } = collections;
     const result = await carts.findOne({ _id: cartId });
