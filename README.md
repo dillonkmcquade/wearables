@@ -15,7 +15,7 @@
 - Server endpoints follow REST best practices
 - User shopping carts are stored on backend
 - Homepage displays featured categories and random items
-- User authentication
+- Session based user authentication & authorization with JWT & Redis
 - Api documentation
 
 ## Contributors
