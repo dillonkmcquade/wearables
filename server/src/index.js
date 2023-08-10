@@ -10,10 +10,11 @@ const itemRouter = require("./Routes/items");
 const companyRouter = require("./Routes/companies");
 
 const PORT = process.env.PORT || 3001;
+const server = express();
 
 connectToDatabase()
   .then(() => {
-    express()
+    server
       .use(function (_req, res, next) {
         res.header("Access-Control-Allow-Origin", "*");
         res.header(
@@ -34,13 +35,20 @@ connectToDatabase()
       .use("/cart", cartRouter)
       .use("/items", itemRouter)
       .use("/companies", companyRouter)
-      .get("/", (req, res) => {
+      .get("/", (_, res) => {
         return res.sendStatus(200);
       })
-      .get("*", (req, res) => {
+      .get("*", (_, res) => {
         return res.sendStatus(404);
       })
-
       .listen(PORT, () => console.log(`Listening on port ${PORT}`));
+    process.on("SIGTERM", () => {
+      console.log("Shutting down gracefully...");
+      setTimeout(() => {
+        server.close(() => {
+          process.exit();
+        });
+      }, 5000);
+    });
   })
   .catch((error) => console.error(error.message));
