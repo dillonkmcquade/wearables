@@ -5,6 +5,7 @@ const { batchImportCompanies } = require("../batchImportCompanies");
 require("dotenv").config();
 
 const collections = {};
+
 const redisClient = createClient({ url: "redis://redis:6379" });
 
 async function connectToDatabase() {
@@ -21,27 +22,24 @@ async function connectToDatabase() {
     console.log("Successfully connected to redis");
   }
 
+  /** @type {import("mongodb").MongoClient} */
   const client = new MongoClient(DB_STRING);
   await client.connect();
 
+  /** @type {import("mongodb").Db} */
   const db = client.db(process.env.DB_NAME);
-
-  const userCollection = db.collection("users");
-  const orderCollection = db.collection("orders");
-  const itemCollection = db.collection("items");
-  const cartCollection = db.collection("carts");
-  const companyCollection = db.collection("companies");
-  const authCollection = db.collection("auth");
 
   await batchImportItems();
   await batchImportCompanies();
 
-  collections.users = userCollection;
-  collections.orders = orderCollection;
-  collections.items = itemCollection;
-  collections.carts = cartCollection;
-  collections.companies = companyCollection;
-  collections.auth = authCollection;
+  collections = {
+    users: db.collection("users"),
+    orders: db.collection("orders"),
+    items: db.collection("items"),
+    carts: db.collection("carts"),
+    companies: db.collection("companies"),
+    auth: db.collection("auth"),
+  };
   console.log(`Successfully connected to database: ${db.databaseName}`);
 }
 module.exports = { collections, connectToDatabase, redisClient };

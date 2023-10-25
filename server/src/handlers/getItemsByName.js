@@ -2,6 +2,10 @@
 
 const { collections } = require("../services/database.service");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const getItemsByName = async (request, response) => {
   const { name } = request.params;
 

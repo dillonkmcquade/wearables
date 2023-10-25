@@ -4,6 +4,10 @@ const { collections } = require("../services/database.service");
 
 //latest version tested and working
 //
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const addItemToCart = async (request, response) => {
   //_id is the item id
   //qty is the amount of items chosen by the user in the FE

@@ -8,6 +8,10 @@ const { collections, redisClient } = require("../services/database.service");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const signin = async (request, response) => {
   const { email } = request.body;
   const { password } = request.body;

@@ -1,5 +1,9 @@
 const { redisClient } = require("../services/database.service");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 async function logout(req, res) {
   const auth = req.body["token"];
   if (!auth) {

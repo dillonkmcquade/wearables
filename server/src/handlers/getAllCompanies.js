@@ -6,6 +6,10 @@
 
 const { collections } = require("../services/database.service");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const getAllCompanies = async (request, response) => {
   const { limit = 24, start = 0 } = request.query;
   const parsedLimit = parseInt(limit);

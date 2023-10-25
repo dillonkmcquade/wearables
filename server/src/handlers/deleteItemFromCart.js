@@ -2,6 +2,10 @@
 
 const { collections } = require("../services/database.service");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const deleteItemFromCart = async (request, response) => {
   const { cartId } = request.auth;
   const { itemId } = request.body;

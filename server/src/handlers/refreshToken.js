@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken");
 const { redisClient } = require("../services/database.service");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 async function refreshToken(req, res) {
   const token = req.body["refreshToken"];
 

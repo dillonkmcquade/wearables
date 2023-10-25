@@ -2,8 +2,11 @@
 
 const { collections } = require("../services/database.service");
 
-// Handler for getting all items
-const getAllItemNames = async (request, response) => {
+/**
+ * Handler for getting all items
+ * @param {import("express").Response} response
+ */
+const getAllItemNames = async (_, response) => {
   try {
     const { items } = collections;
     // Get distinct names of all items

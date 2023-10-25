@@ -4,6 +4,10 @@ const { collections } = require("../services/database.service");
 
 //ENDPOINT CREATED FOR THE CART PAGE
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const getCart = async (request, response) => {
   const user = request.auth;
   // when logged in, the cartId will be saved on local storage passed as URL param

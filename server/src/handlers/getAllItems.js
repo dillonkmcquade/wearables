@@ -3,6 +3,10 @@
 const { collections } = require("../services/database.service");
 
 // Handler for getting all items with pagination
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const getAllItems = async (request, response) => {
   try {
     const { items } = collections;

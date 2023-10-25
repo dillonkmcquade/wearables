@@ -4,6 +4,10 @@ const bcrypt = require("bcrypt");
 const { collections, redisClient } = require("../services/database.service");
 const jwt = require("jsonwebtoken");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const signup = async (request, response) => {
   const { email, password, firstName, lastName, phoneNumber, address } =
     request.body;

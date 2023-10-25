@@ -5,6 +5,10 @@
 
 const { collections } = require("../services/database.service");
 
+/**
+ * @param {import("express").Request} request
+ * @param {import("express").Response} response
+ */
 const checkout = async (request, response) => {
   const { cartId } = request.auth;
   const { email, creditCard, expiration, address, city, country, postalCode } =
