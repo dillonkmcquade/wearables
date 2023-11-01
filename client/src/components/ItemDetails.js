@@ -44,7 +44,7 @@ const ItemDetails = () => {
     };
     const newData = JSON.stringify(data);
     const accessToken = window.localStorage.getItem("accessToken");
-    Fetch(`${process.env.REACT_APP_SERVER_URL}/cart/add`, {
+    Fetch(`${process.env.REACT_APP_SERVER_URL}/cart/addOne`, {
       method: "PATCH",
       headers: {
         Accept: "application/json",

@@ -10,8 +10,8 @@ cartRouter
   .use(auth)
   .get("/", getCart)
   .post("/checkout", checkout)
-  .patch("/delete/", deleteItemFromCart)
-  .patch("/update/", updateItemFromCart)
-  .patch("/add/", addItemToCart);
+  .patch("/deleteOne", deleteItemFromCart)
+  .patch("/update", updateItemFromCart)
+  .patch("/addOne", addItemToCart);
 
 module.exports = cartRouter;

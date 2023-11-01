@@ -12,7 +12,7 @@ export default function CartItem({ cart, setCart, item }) {
     try {
       const accessToken = window.localStorage.getItem("accessToken");
       const request = await Fetch(
-        `${process.env.REACT_APP_SERVER_URL}/cart/delete`,
+        `${process.env.REACT_APP_SERVER_URL}/cart/deleteOne`,
         {
           method: "PATCH",
           headers: {

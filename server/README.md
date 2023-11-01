@@ -1,54 +1,62 @@
 # Backend
 
-**OPTIONAL: You can document your endpoints in this file.**
-
 ## Endpoints
 
-| Endpoint                          | Method | Description                                                       |
-| --------------------------------- | ------ | ----------------------------------------------------------------- |
-| [/companies](#companies)          | `GET`  | Returns an array of all companies                                 |
-| [/companies/:\_id](#companies_id) | `GET`  | Returns company information as object                             |
-| [/items](#items)                  | `GET`  | Returns an array of given amount and limit requested by user      |
-| [/items/:name](#itemsname)        | `GET`  | Returns an array of results of partial or full given name of item |
-| [/signup](#signup)                | `POST` | Creates user and user's cart                                      |
-| [/signin](#signin)                | `POST` | Authenticate user with signin                                     |
-| [/checkout](#checkout)            | `POST` | Create new order                                                  |
-| [/add-item-to-cart/:cartId](#addItemToCart) |  `PATCH` | Adds item to user cart Document |
+| Endpoint                       | Method  | Description                                                       |
+| ------------------------------ | ------- | ----------------------------------------------------------------- |
+| [/companies](#companies)       | `GET`   | Returns an array of all companies                                 |
+| [/companies/:\_id](#companies) | `GET`   | Returns company information as object                             |
+| [/items](#items)               | `GET`   | Returns an array of given amount and limit requested by user      |
+| [/items/:name](#items)         | `GET`   | Returns an array of results of partial or full given name of item |
+| [/auth/signup](#auth)          | `POST`  | Creates user and user's cart                                      |
+| [/auth/signin](#auth)          | `POST`  | Authenticate user with signin                                     |
+| [/auth/logout](#auth)          | `POST`  | Logout user                                                       |
+| [/auth/refreshToken](#auth)    | `POST`  | Request a refresh token                                           |
+| [/cart](#cart)                 | `GET`   | Get the current user's cart                                       |
+| [/cart/checkout](#cart)        | `POST`  | Create new order                                                  |
+| [/cart/deleteOne](#cart)       | `PATCH` | Remove item in cart                                               |
+| [/cart/update](#cart)          | `PATCH` | Update cart item quantity                                         |
+| [/cart/addOne](#cart)          | `PATCH` | Adds item to cart                                                 |
 
-## /companies
+# Companies
+
+## GET /companies
+
+Successful requests return an array of objects structured this way:
 
 ### Query parameters
 
-Requests can be given optional query parameters `start` and `limit` like so:
-
 ```js
-fetch("/companies?start=5&limit=50");
+start: number; // default 0
+limit: number; // default 24
 ```
 
 ### Return
 
-Successful requests return an array of objects structured this way:
-
 ```json
-{
-  "status": 200,
-  "totalItems": 74,
-  "start": 0,
-  "limit": 74,
-  "data": [
-    {
-      "_id": 19962,
-      "name": "Barska",
-      "url": "http://www.barska.com/",
-      "country": "United States"
-    }
-  ]
-}
+[
+  {
+    "status": 200,
+    "totalItems": 74,
+    "start": 0,
+    "limit": 74,
+    "data": [
+      {
+        "_id": 19962,
+        "name": "Barska",
+        "url": "http://www.barska.com/",
+        "country": "United States"
+      }
+    ]
+  }
+]
 ```
 
-## /companies/:\_id
+## GET /companies/:\_id
 
-Successful requests return an object:
+Get one company by id
+
+### Return
 
 ```json
 {
@@ -62,209 +70,303 @@ Successful requests return an object:
 }
 ```
 
-## /items
+# Items
 
-### Optional Parameters: limit=`number`, start=`number`
+## GET /items
 
-How to use this endpoint
+Get all products as an array
 
-- To specify the limit and start parameters, append them to the URL as query parameters.
-  Example: /items?limit=10&start=20
-- The "limit" parameter determines the maximum number of items to retrieve (default is 25).
-- The "start" parameter determines the index to start retrieving items from (default is 0).
-- Adjust the values of "limit" and "start" as per your requirements.
-- By default the start is 0 and the limit is 25
-- the return of the data will be in an array
+### Query parameters
+
+```js
+start: number; // default 0
+limit: number; // default 24
+```
+
+### Return
+
+```json
+[
+  {
+    "status": 200,
+    "totalItems": 348,
+    "limit": 1,
+    "start": 0,
+    "data": [
+      {
+        "_id": 6543,
+        "name": "Barska GB12166 Fitness Watch with Heart Rate Monitor",
+        "price": "$49.99",
+        "body_location": "Wrist",
+        "category": "Fitness",
+        "imageSrc": "someImgUrl",
+        "numInStock": 9,
+        "companyId": 19962
+      }
+    ]
+  }
+]
+```
+
+## GET /items/:name
+
+Get one item by name
+
+### Return
 
 ```json
 {
   "status": 200,
   "data": [
     {
-      "_id": 6543,
-      "name": "Barska GB12166 Fitness Watch with Heart Rate Monitor",
-      "price": "$49.99",
+      "_id": 6561,
+      "name": "Jawbone - Up Wristband (large) - Red",
+      "price": "$51.99",
       "body_location": "Wrist",
-      "category": "Fitness",
+      "category": "Lifestyle",
       "imageSrc": "someImgUrl",
-      "numInStock": 9,
-      "companyId": 19962
+      "numInStock": 3,
+      "companyId": 18834
     }
-  ],
-  "totalItems": 348,
-  "limit": 1,
-  "start": 0
+  ]
 }
 ```
 
-## /items/:name
+# Auth
 
-How to use this endpoint
+## POST /auth/signup
 
-Parameters:
+Create a new user
 
-- This endpoint searches for items with a name that matches the provided value. The search is case-insensitive.
-
-Example Usage:
-
-### `will get specific item`
-
-- GET /items/Jawbone - Up Wristband (large) - Red
-
-### `will get all items with jawbone in the name`
-
-- GET /items/Jawbone
-
-- the return of the data will be in an array
+### Request Body
 
 ```json
-this is specific name search
 {
-  "status": 200,
-	"data": [
-		{
-			"_id": 6561,
-			"name": "Jawbone - Up Wristband (large) - Red",
-			"price": "$51.99",
-			"body_location": "Wrist",
-			"category": "Lifestyle",
-			"imageSrc": "someImgUrl",
-			"numInStock": 3,
-			"companyId": 18834
-		}
-	]
+  "email": "string", // required
+  "password": "string", // required
+  "firstName": "string", // required
+  "lastName": "string", // required
+  "phoneNumber": "string", // required
+  "address": "string" // required
 }
 ```
 
+### Return
+
 ```json
-this is partial name search
-this search left out the color
 {
-  "status": 200,
-	"data": [
-    {
-			"_id": 6789,
-			"name": "Jawbone - Up Wristband (large) - Onyx",
-			"price": "$57.99",
-			"body_location": "Wrist",
-			"category": "Lifestyle",
-			"imageSrc": "someImgUrl",
-			"numInStock": 12,
-			"companyId": 18834
-		},
-		{
-			"_id": 6561,
-			"name": "Jawbone - Up Wristband (large) - Red",
-			"price": "$51.99",
-			"body_location": "Wrist",
-			"category": "Lifestyle",
-			"imageSrc": "someImgUrl",
-			"numInStock": 3,
-			"companyId": 18834
-		}
-	]
+  "status": "number",
+  "message": "string",
+  "accessToken": "string",
+  "refreshToken": "string"
 }
 ```
 
-## /signup
+## POST /auth/signin
 
-### All parameters must be provided : [email, password, firstName, lastName, phoneNumber, address ]
+Sign in
 
-- This endpoint creates an authorization object which contains an encrypted version of the password and the provided email as \_id.
-- The endpoint also creates an user object containing email, first name, last name, phone number, address, a cart Id, and an array of orders.
-- After that the endpoint also creates a cart object, which will have the same id provided to the user.
+## Request body
 
 ```json
 {
-  "status": 201,
-  "message": "Account successfully created"
-}
-```
-
-## /signin
-
-## Expected body:
-
-```json
-{
-  "email": "test1@email.com",
-  "password": "<plain text>"
+  "email": "test1@email.com", // required
+  "password": "<plain text>" // required
 }
 ```
 
 ## Return
 
-```js
+```json
 {
-  "status": 200,
-  "data": {
-    "email": "test1@email.com",
-    "firstName": "firstname1",
-    "lastName": "lastname1",
-    "cartId": "6b6fb3b0-a903-48d6-b961-ff4a0b15c8be" //save this in localStorage
-  }
+  "status": "number",
+  "accessToken": "string",
+  "refreshToken": "string"
 }
 ```
 
-## /checkout
+## POST /auth/refreshToken
 
-### Expected body:
+Request a refresh token when an access token expires
 
-```js
+### Request body
+
+```json
 {
-  "_id": "bc2a3675-33e0-40e4-a132-b6418bf62b1c", //user's cartId from localStorage
-  "creditCard": 12323123123123,
-  "email": "test1@email.com",
-  "expiration": "04/27",
-  "address": "test street",
-  "city": "Laval",
-  "country": "Canada",
-  "postalCode": "H7N 2S7"
+  "refreshToken": "string" // required
+}
+```
+
+### Return
+
+```json
+{
+  "status": "number",
+  "accessToken": "string",
+  "refreshToken": "string"
+}
+```
+
+## POST /auth/logout
+
+Removes accessToken and refreshToken from redis
+
+### Request body
+
+```json
+{
+  "token": "string" // access token
+}
+```
+
+### Return
+
+Status `204`
+
+### Request body
+
+```json
+{
+  "refreshToken": "string" // required
+}
+```
+
+### Return
+
+```json
+{
+  "status": "number",
+  "accessToken": "string",
+  "refreshToken": "string"
+}
+```
+
+# Cart
+
+## GET /cart
+
+Get the current user's cart
+
+`Requires authorization`
+
+### Return
+
+```json
+{
+  "status": "number",
+  "data": [
+    {
+      "_id": "number",
+      "qty": "number",
+      "brand": "string",
+      "name": "string",
+      "price": "number",
+      "body_location": "string",
+      "category": "string",
+      "imageSrc": "string",
+      "numInStock": "number",
+      "companyId": "number"
+    }
+  ]
+}
+```
+
+## POST /cart/checkout
+
+Create a new order
+
+`Requires authorization`
+
+### Request body
+
+```json
+{
+  "_id": "string", // required
+  "creditCard": "number", // required
+  "email": "string", // required
+  "expiration": "string", // required
+  "address": "string", // required
+  "city": "string", // required
+  "country": "string", // required
+  "postalCode": "string" // required
 }
 ```
 
 ### Return:
 
-```js
-{
-    "status": 201,
-    "message": "Success",
-    "orderId": "6495bae535db3b44bda5a668" //Use this to redirect to users confirmation page
-}
-```
-
-## /addItemToCart/:cartId
-
-- This endpoint add the chosen amount of a specific item to the user's cart.
-- The cartId needs to be passed as URL param.
-- The item id and the amount of items need to be passed in the body.
-
 ```json
 {
-  "status": 200,
-  "message": "Item added to the cart"
+  "status": 201,
+  "message": "string",
+  "orderId": "string" // Use this to redirect to users confirmation page
 }
 ```
 
-## /cart/:cartId/delete
+## PATCH /cart/addOne
 
-- This endpoint deletes the chosen item from user's cart.
-- The cartId needs to be passed as URL param.
+Add an item to cart
 
+`Requires authorization`
+
+### Request body
 
 ```json
-The ID of the item in the cart items array needs to be passed in the body 
+{
+  "_id": "string",
+  "qty": "number"
+}
+```
 
-{ 
-  "itemId": "6553"
+### Return
+
+```json
+{
+  "status": "number",
+  "message": "string"
+}
+```
+
+## PATCH /cart/deleteOne
+
+Remove item from cart
+
+`Requires authorization`
+
+### Request Body
+
+```json
+{
+  "itemId": "string" // required
 }
 ```
 
 ```json
-The ID of the item in the cart items array needs to be passed in the body 
+{
+  "status": "number",
+  "message": "string"
+}
+```
 
-{ 
-	"status": 200,
-	"message": "Item deleted from cart"
+## PATCH /cart/update
+
+Update the quantity of an item in the cart.
+
+`Requires authorization`
+
+### Request body
+
+```json
+{
+  "_id": "string", // required
+  "updateQty": "string" // required
+}
+```
+
+### Return
+
+```json
+{
+  "status": "number",
+  "message": "string"
 }
 ```

@@ -2,8 +2,6 @@
 
 const { collections } = require("../services/database.service");
 
-//ENDPOINT CREATED FOR THE CART PAGE
-
 /**
  * @param {import("express").Request} request
  * @param {import("express").Response} response
