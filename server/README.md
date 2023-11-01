@@ -20,7 +20,7 @@
 
 # Companies
 
-## GET /companies
+## GET `/companies`
 
 Successful requests return an array of objects structured this way:
 
@@ -52,7 +52,7 @@ limit: number; // default 24
 ]
 ```
 
-## GET /companies/:\_id
+## GET `/companies/:\_id`
 
 Get one company by id
 
@@ -72,7 +72,7 @@ Get one company by id
 
 # Items
 
-## GET /items
+## GET `/items`
 
 Get all products as an array
 
@@ -108,7 +108,7 @@ limit: number; // default 24
 ]
 ```
 
-## GET /items/:name
+## GET `/items/:name`
 
 Get one item by name
 
@@ -134,7 +134,7 @@ Get one item by name
 
 # Auth
 
-## POST /auth/signup
+## POST `/auth/signup`
 
 Create a new user
 
@@ -162,7 +162,7 @@ Create a new user
 }
 ```
 
-## POST /auth/signin
+## POST `/auth/signin`
 
 Sign in
 
@@ -185,7 +185,7 @@ Sign in
 }
 ```
 
-## POST /auth/refreshToken
+## POST `/auth/refreshToken`
 
 Request a refresh token when an access token expires
 
@@ -207,7 +207,7 @@ Request a refresh token when an access token expires
 }
 ```
 
-## POST /auth/logout
+## POST `/auth/logout`
 
 Removes accessToken and refreshToken from redis
 
@@ -243,7 +243,7 @@ Status `204`
 
 # Cart
 
-## GET /cart
+## GET `/cart`
 
 Get the current user's cart
 
@@ -271,7 +271,7 @@ Get the current user's cart
 }
 ```
 
-## POST /cart/checkout
+## POST `/cart/checkout`
 
 Create a new order
 
@@ -302,7 +302,7 @@ Create a new order
 }
 ```
 
-## PATCH /cart/addOne
+## PATCH `/cart/addOne`
 
 Add an item to cart
 
@@ -326,7 +326,7 @@ Add an item to cart
 }
 ```
 
-## PATCH /cart/deleteOne
+## PATCH `/cart/deleteOne`
 
 Remove item from cart
 
@@ -347,7 +347,7 @@ Remove item from cart
 }
 ```
 
-## PATCH /cart/update
+## PATCH `/cart/update`
 
 Update the quantity of an item in the cart.
 
