@@ -29,7 +29,7 @@ export const CompanyProvider = ({ children }) => {
       };
       fetchData();
     }
-  }, []);
+  }, [companies]);
   return (
     <CompanyContext.Provider
       value={{ companies, loadingCompanies, setLoadingCompanies }}

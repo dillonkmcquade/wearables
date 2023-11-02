@@ -15,7 +15,7 @@ const CatBurger = () => {
     };
     window.addEventListener("mousedown", listener);
     return () => window.removeEventListener("mousedown", listener);
-  }, [location]);
+  }, [location, open]);
   return (
     <Wrapper>
       <Hamburger onClick={() => setOpen(open ? false : true)} size={20} />

@@ -18,7 +18,7 @@ export default function Cart() {
     if (!currentUser) {
       navigate("/signin");
     }
-  }, [cart]);
+  }, [cart, currentUser, navigate]);
   return (
     <Wrapper>
       <Items>

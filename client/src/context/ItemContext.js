@@ -1,6 +1,6 @@
 // Provides item context across application, caches items in localStorage on initial render
 // Must manually set loading to false wherever used
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 
 export const ItemContext = createContext(null);
 
@@ -15,7 +15,7 @@ export const ItemProvider = ({ children }) => {
       return null;
     }
   });
-  const fetchData = async function () {
+  const fetchData = useCallback(async function () {
     try {
       const request = await fetch(
         `${process.env.REACT_APP_SERVER_URL}/items?start=0&limit=348`,
@@ -28,12 +28,12 @@ export const ItemProvider = ({ children }) => {
     } catch (err) {
       console.error(err.message);
     }
-  };
+  }, []);
   useEffect(() => {
     if (!items) {
       fetchData();
     }
-  }, []);
+  }, [fetchData, items]);
   return (
     <ItemContext.Provider
       value={{ items, loadingItems, setLoadingItems, fetchData }}
