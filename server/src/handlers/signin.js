@@ -4,7 +4,7 @@
 
 "use strict";
 
-const { collections, redisClient } = require("../services/database.service");
+const { collections, redisClient } = require("../dataSource.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 

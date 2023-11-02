@@ -1,7 +1,7 @@
 "use strict";
 const { v4: uuidv4 } = require("uuid");
 const bcrypt = require("bcrypt");
-const { collections, redisClient } = require("../services/database.service");
+const { collections, redisClient } = require("../dataSource.js");
 const jwt = require("jsonwebtoken");
 
 /**

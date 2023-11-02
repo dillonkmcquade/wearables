@@ -4,7 +4,7 @@
 
 "use strict";
 
-const { collections } = require("../services/database.service");
+const { collections } = require("../dataSource.js");
 
 /**
  * @param {import("express").Request} request
@@ -16,7 +16,8 @@ const getAllCompanies = async (request, response) => {
   const parsedStart = parseInt(start);
 
   try {
-    const { companies } = collections;
+    /** @type {import("mongodb").Collection} */
+    const companies = collections.companies;
     const resultGetAll = await companies
       .find()
       .skip(parsedStart)
@@ -24,7 +25,7 @@ const getAllCompanies = async (request, response) => {
       .toArray();
 
     // Get the total number of items in the collection
-    const totalItems = await companies.countDocuments();
+    const totalItems = await companies.estimatedDocumentCount();
 
     // Fetch the items with pagination
     resultGetAll

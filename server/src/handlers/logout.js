@@ -1,4 +1,4 @@
-const { redisClient } = require("../services/database.service");
+const { redisClient } = require("../dataSource.js");
 
 /**
  * @param {import("express").Request} request

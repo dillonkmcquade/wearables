@@ -3,7 +3,7 @@
 */
 "use strict";
 
-const { collections } = require("../services/database.service");
+const { collections } = require("../dataSource.js");
 
 /**
  * @param {import("express").Request} request

@@ -1,6 +1,6 @@
 "use strict";
 
-const { collections } = require("../services/database.service");
+const { collections } = require("../dataSource.js");
 
 /**
  * @param {import("express").Request} request
@@ -34,9 +34,9 @@ const updateItemFromCart = async (request, response) => {
   try {
     const { carts } = collections;
 
-    const cartData = await carts.findOne({ _id: cartId });
+    const shoppingCart = await carts.findOne({ _id: cartId });
 
-    if (!cartData) {
+    if (!shoppingCart) {
       response.status(404).json({ status: 404, message: "Not Found" });
       return;
     }
@@ -44,9 +44,9 @@ const updateItemFromCart = async (request, response) => {
     /**
      * checks if user has the item in the cart before updating quantity
      */
-    const containsItem = cartData.cartItems.some((item) => item._id === _id);
+    const cartItem = shoppingCart.cartItems.find((item) => item._id === _id);
 
-    if (!containsItem) {
+    if (!cartItem) {
       response.status(400).json({ message: "Item not part of user carts" });
       return;
     }

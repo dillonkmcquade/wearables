@@ -4,19 +4,14 @@ Retrieves one company from database by id
 
 "use strict";
 
-const { collections } = require("../services/database.service");
+const { collections } = require("../dataSource.js");
 
 const getOneCompany = async (request, response) => {
   const { _id } = request.params;
   if (!_id) {
     return response.status(400).json({
       status: 400,
-      data: {
-        _id: _id || "Missing Params",
-        someParam: someParam || "Missing someParam",
-        anotherParam: anotherParam || "Missing anotherParam",
-        somethingElse: somethingElse || "Missing somethingElse",
-      },
+      message: "missing _id",
     });
   }
 

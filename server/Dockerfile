@@ -1,5 +1,5 @@
 FROM node:18-alpine
-WORKDIR /wearables
+WORKDIR /wearables/server
 COPY . .
 RUN apk -U upgrade
 RUN apk add curl
